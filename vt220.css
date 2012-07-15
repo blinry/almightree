@@ -5,6 +5,11 @@
 
 .highlight { background-color: yellow }
 
+.zoom {
+    color: red;
+}
+
+/*
 ul, li {
     display: inline;
     margin: 0;
@@ -30,6 +35,7 @@ ul .hoisted {
 }
 ul .crumb {
 }
+*/
 
 body {
     color: white;
