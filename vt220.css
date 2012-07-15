@@ -3,11 +3,59 @@
     src: url("Glass_TTY_VT220.ttf");
 }
 
-.highlight { background-color: yellow }
+li.zoom li .highlight { background-color: yellow }
 
-.zoom {
-    color: red;
+li.crumb {
+    color: gray !important;
+    display: inline !important;
 }
+
+li.crumb:before {
+    content: "> ";
+}
+
+#thetree > li.crumb:before {
+    content: "" !important;
+}
+
+#thetree li {
+    cursor: pointer;
+}
+
+li.crumb > ul {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+li.crumb li {
+    color: white;
+    display: none;
+}
+
+li.zoom {
+    display: block !important;
+    font-size: 40px;
+    padding-top: 0.5em;
+}
+
+li.zoom li {
+    display: list-item !important;
+    font-size: 20px;
+}
+
+li.filter {
+    color: blue !important;
+    height: 0;
+    overflow: hidden;
+}
+
+/*
+li.filter li {
+    color: white;
+    display: list-item;
+}
+*/
 
 /*
 ul, li {

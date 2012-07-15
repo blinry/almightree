@@ -1,36 +1,44 @@
 function filter(regex) {
-    $('#thetree').removeHighlight();
+    $('#thetree li.zoom').removeHighlight();
+
+    $('#thetree li').each(function() {
+        $(this).removeClass("filter");
+        //$(this).addClass("hidden");
+    });
 
     if(regex.length==0){
         //$('.hoisted li').show();
-        $('#thetree li').each(function() {
+        /*
+        $('#thetree li.zoom').each(function() {
             $(this).toggle(true);
         });
+        */
         return;
     }
 
     var re = new RegExp(regex, "i");
 
-    $('#thetree li').each(function() {
-        var hasMatch = re.test($(this).text());
-        //if($(this).hasClass("hoisted")) {
-        $(this).toggle(hasMatch);
-        //}
+    $('#thetree li.zoom li').each(function() {
+        var hasMatch = re.test($(this).text());// && ($(this).hasClass("zoom") || $(this).hasClass("crumb"));
+        if (!hasMatch) {
+            $(this).addClass("filter");
+            //$(this).css("display", "list-item !important
+        }
     });
 
-    $('#thetree').highlight(regex);
+    $('#thetree li.zoom').highlight(regex);
 }
 
 function zoom(item) {
+    filter("");
     $('#search').val("");
     $('#thetree li').each(function() {
-        //$(this).removeClass("hoisted crumb header");
-        $(this).removeClass("zoom");
+        $(this).removeClass("crumb zoom");
         //$(this).addClass("hidden");
     });
     item.addClass("zoom");
     //item.find('li').addClass("hoisted").removeClass("hidden");
-    //item.parentsUntil('#thetree', 'li').addClass("crumb").removeClass("hidden");
+    item.parentsUntil('#thetree', 'li').addClass("crumb");//.removeClass("hidden");
 }
 
 $(function(){
@@ -48,16 +56,6 @@ $(function(){
     function() {
         zoom($(this));
     });
-
-    /*
-    $.extend($.expr[':'], {
-        'containsi': function(elem, i, match, array)
-    {
-        return (elem.textContent || elem.innerText || '').toLowerCase()
-        .indexOf((match[3] || "").toLowerCase()) >= 0;
-    }
-    });
-    */
 
     $('#search').keyup(function() {
         filter($(this).val());
