@@ -1,10 +1,33 @@
 $(function(){
 
+    /*
     $('#collapser').jqcollapse({
         slide: true,
     speed: 50,
     easing: 'easeOutCubic'
     });
+    */
+
+    $('li').toggle(function() {
+        $('#search').val("");
+        $('li').each(function() {
+            $(this).removeClass("hoisted crumb header");
+            $(this).addClass("hidden");
+        });
+        $(this).addClass("hoisted header");
+        $(this).find('li').addClass("hoisted").removeClass("hidden");
+        $(this).parentsUntil('#collapser', 'li').addClass("crumb").removeClass("hidden");
+    },
+function() {
+        $('li').each(function() {
+            $(this).removeClass("hoisted crumb header");
+            $(this).addClass("hidden");
+        });
+        $(this).addClass("hoisted header");
+        $(this).find('li').addClass("hoisted").removeClass("hidden");
+        $(this).parentsUntil('#collapser', 'li').addClass("crumb").removeClass("hidden");
+    }
+    );
 
     $.extend($.expr[':'], {
         'containsi': function(elem, i, match, array)
@@ -19,18 +42,23 @@ $(function(){
 
         $('#collapser').removeHighlight();
 
-        if(searchTerms.length==0){ $('li').show(); return; }
+        if(searchTerms.length==0){ $('.hoisted li').show(); return; }
 
         var re = new RegExp(searchTerms, "i");
 
-        $('li').each(function() {
+        $('.hoisted li').each(function() {
             var hasMatch = re.test($(this).text());
             //var hasMatch = searchTerms.length == 0 || $(this).is(':containsi(' + searchTerms  + ')');
 
+            //if($(this).hasClass("hoisted")) {
                 $(this).toggle(hasMatch);
+            //}
                 });
 
             $('#collapser').highlight(searchTerms);
             });
 
-        });
+    $('#collapser li').addClass("hoisted");
+
+});
+
