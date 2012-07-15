@@ -1,0 +1,26 @@
+@font-face {
+    font-family: "Glass TTY VT220";
+    src: url("Glass_TTY_VT220.ttf");
+}
+
+.highlight { background-color: yellow }
+
+body {
+    color: white;
+    background: black;
+}
+
+#main {
+    font-family: "Glass TTY VT220", "monospace";
+    font-size: 20px;
+    width: 80ex;
+    margin: 0 auto;
+}
+
+a:link, a:visited {
+    color: #0b0;
+}
+
+a:hover {
+    color: #0f0;
+}
