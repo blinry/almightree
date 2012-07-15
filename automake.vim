@@ -1,6 +1,6 @@
-set updatetime=10
+set updatetime=1000
 autocmd CursorMoved,CursorMovedI,CursorHold,CursorHoldI *
-            \ w |
-            \ silent execute ":!make &> /tmp/makeerrors &" |
+            \ silent w |
+            \ silent execute "!make &> /tmp/makeerrors &" |
             "\ redraw! |
             \ cgetfile /tmp/makeerrors
