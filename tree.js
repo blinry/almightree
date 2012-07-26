@@ -6,26 +6,18 @@ function filter(regex) {
 
     $('#thetree li').each(function() {
         $(this).removeClass("filter");
-        //$(this).addClass("hidden");
     });
 
     if(regex.length==0){
-        //$('.hoisted li').show();
-        /*
-        $('#thetree li.zoom').each(function() {
-            $(this).toggle(true);
-        });
-        */
         return;
     }
 
     var re = new RegExp(regex, "i");
 
     $('#thetree li.zoom li').each(function() {
-        var hasMatch = re.test($(this).text());// && ($(this).hasClass("zoom") || $(this).hasClass("crumb"));
+        var hasMatch = re.test($(this).text());
         if (!hasMatch) {
             $(this).addClass("filter");
-            //$(this).css("display", "list-item !important
         }
     });
 
@@ -38,22 +30,13 @@ function zoom(item) {
     $('#search').val("");
     $('#thetree li').each(function() {
         $(this).removeClass("crumb zoom");
-        //$(this).addClass("hidden");
     });
     item.addClass("zoom");
-    //item.find('li').addClass("hoisted").removeClass("hidden");
-    item.parentsUntil('#thetree', 'li').addClass("crumb");//.removeClass("hidden");
+    item.parentsUntil('#thetree', 'li').addClass("crumb");
 }
 
 $(function(){
     term = window.location.hash.substr(1);
-    /*
-    $('#collapser').jqcollapse({
-        slide: true,
-    speed: 50,
-    easing: 'easeOutCubic'
-    });
-    */
 
     $('#thetree li').toggle(function() {
         zoom($(this));
