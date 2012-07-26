@@ -1,4 +1,7 @@
+// show only subtrees of currently focused node that contain `regex`
 function filter(regex) {
+    $('#search').val(regex);
+    window.history.replaceState("what","","index.html#"+regex);
     $('#thetree li.zoom').removeHighlight();
 
     $('#thetree li').each(function() {
@@ -29,6 +32,7 @@ function filter(regex) {
     $('#thetree li.zoom').highlight(regex);
 }
 
+// show only `item` and below
 function zoom(item) {
     filter("");
     $('#search').val("");
@@ -42,6 +46,7 @@ function zoom(item) {
 }
 
 $(function(){
+    term = window.location.hash.substr(1);
     /*
     $('#collapser').jqcollapse({
         slide: true,
@@ -62,4 +67,8 @@ $(function(){
     });
 
     zoom($('#thetree li').first());
+
+    if (term != "" && term != null) {
+        filter(term);
+    }
 });
