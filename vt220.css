@@ -1,9 +1,10 @@
-@font-face {
-    font-family: "Glass TTY VT220";
-    src: url("Glass_TTY_VT220.ttf");
+li.zoom li .highlight {
+    background-color: green; color: black
 }
 
-li.zoom li .highlight { background-color: yellow }
+li.folded {
+    color: blue;
+}
 
 li.crumb {
     color: gray !important;
@@ -28,6 +29,10 @@ li.crumb > ul {
     margin: 0;
 }
 
+li.folded li {
+    color: white;
+}
+
 li.crumb li {
     color: white;
     display: none;
@@ -45,7 +50,7 @@ li.zoom li {
 }
 
 li.filter {
-    color: blue !important;
+    color: red !important;
     height: 0;
     overflow: hidden;
 }
@@ -91,7 +96,6 @@ body {
 }
 
 #main {
-    font-family: "Glass TTY VT220", "monospace";
     font-size: 20px;
     width: 80ex;
     margin: 0 auto;
