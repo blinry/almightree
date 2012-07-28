@@ -4,9 +4,7 @@ function filter(regex) {
     window.history.replaceState("what","","index.html#"+regex);
     $('#thetree li.zoom').removeHighlight();
 
-    $('#thetree li').each(function() {
-        $(this).removeClass("filter folded");
-    });
+    $('#thetree li').removeClass("filter folded");
 
     if(regex.length==0){
         compress();
@@ -19,9 +17,11 @@ function filter(regex) {
         var hasMatch = re.test($(this).text());
         if (!hasMatch) {
             $(this).addClass("filter");
-            $(this).parent().parent().addClass("folded");
+            //$(this).parent().parent().parent().parent().addClass("folded");
         }
     });
+
+    $("#thetree li").has(".filter").addClass("folded");
 
     $('#thetree li.zoom').highlight(regex);
 }
@@ -39,8 +39,14 @@ function zoom(item) {
 }
 
 function compress() {
+    //$(".zoom").addClass("folded");
+    $(".zoom li").has("ul").addClass("folded");
+    /*$(".zoom li").addClass("filter");*/
+    $(".zoom li").find("li").addClass("filter");
+    /*
     $(".zoom").children("ul").children("li").children("ul").find("li").has("ul").addClass("folded");
     $(".zoom").children("ul").children("li").children("ul").children("li").children("ul").find("li").addClass("filter");
+    */
 }
 
 $(function(){
@@ -55,19 +61,19 @@ $(function(){
     });
     */
 
-    $('#thetree li').click(function(event) {
-        event.stopPropagation();
-        obj = $(this).has("ul");
+    $('#thetree .node').click(function(event) {
+        var li = $(this).parent();
+        obj = li.has("ul");
         if (!obj[0]) {
             return;
         }
 
-        if ($(this).hasClass("folded")) {
-            $(this).removeClass("folded");
-            $(this).children().children("li").removeClass("filter");
+        if (li.hasClass("folded")) {
+            li.removeClass("folded");
+            li.children().children("li").removeClass("filter");
         } else {
-            $(this).addClass("folded");
-            $(this).children().children("li").addClass("filter");
+            li.addClass("folded");
+            li.children().children("li").addClass("filter");
         }
     });
 
