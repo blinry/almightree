@@ -11,11 +11,9 @@
     display: none;
 }
 
-/*
 #thetree li.crumb > .node > .zoom {
     display: none;
 }
-*/
 
 li.zoom li .highlight {
     background-color: green; color: black

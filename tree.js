@@ -55,11 +55,11 @@ function compress() {
 $(function(){
     term = window.location.hash.substr(1);
 
-    $('#thetree .zoom').click(function() {
+    $('#thetree .text').click(function() {
         zoom($(this).parent().parent());
     });
 
-    $('#thetree .text').click(function(event) {
+    $('#thetree .zoom').click(function(event) {
         var li = $(this).parent().parent();
         obj = li.has("ul");
         if (!obj[0] || li.hasClass("crumb") || li.hasClass("zoom")) {
