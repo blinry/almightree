@@ -11,19 +11,14 @@
     display: none;
 }
 
-#thetree li.crumb > .node > .zoom {
+#thetree li.crumb > .node > .zoom, #thetree li.zoom > .node > .zoom {
     display: none;
 }
 
 li.zoom li .highlight {
     background-color: green; color: black
 }
-/*
 
-li.folded {
-    color: blue;
-}
-*/
 li.crumb {
     color: gray !important;
     display: inline !important;
@@ -72,41 +67,6 @@ li.filter {
     height: 0;
     overflow: hidden;
 }
-
-/*
-li.filter li {
-    color: white;
-    display: list-item;
-}
-*/
-
-/*
-ul, li {
-    display: inline;
-    margin: 0;
-    padding: 0;
-}
-ul .header {
-    font-size: 40px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-ul .header ul {
-    font-size: 20px;
-}
-
-ul .hidden {
-    display: none;
-}
-ul .hoisted {
-    display: list-item;
-    margin: 0em 0em 0em 1em;
-}
-ul .crumb {
-}
-*/
 
 li {
     list-style: none;

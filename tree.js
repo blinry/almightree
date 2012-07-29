@@ -20,7 +20,6 @@ function filter(regex) {
         var hasMatch = re.test($(this).text());
         if (!hasMatch) {
             $(this).addClass("filter");
-            //$(this).parent().parent().parent().parent().addClass("folded");
         }
     });
 
@@ -42,14 +41,8 @@ function zoom(item) {
 }
 
 function compress() {
-    //$(".zoom").addClass("folded");
     $(".zoom li").has("ul").addClass("folded");
-    /*$(".zoom li").addClass("filter");*/
     $(".zoom li").find("li").addClass("filter");
-    /*
-    $(".zoom").children("ul").children("li").children("ul").find("li").has("ul").addClass("folded");
-    $(".zoom").children("ul").children("li").children("ul").children("li").children("ul").find("li").addClass("filter");
-    */
 }
 
 $(function(){
