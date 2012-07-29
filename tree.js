@@ -2,14 +2,17 @@
 function filter(regex) {
     $('#search').val(regex);
     window.history.replaceState("what","","index.html#"+regex);
+
     $('#thetree li.zoom').removeHighlight();
 
     $('#thetree li').removeClass("filter folded");
 
     if(regex.length==0){
+        document.title = "morr.cc";
         compress();
         return;
     }
+    document.title = "morr.cc - "+regex;
 
     var re = new RegExp(regex, "i");
 
@@ -52,17 +55,12 @@ function compress() {
 $(function(){
     term = window.location.hash.substr(1);
 
-    /*
-    $('#thetree li').toggle(function() {
-        zoom($(this));
-    },
-    function() {
-        zoom($(this));
+    $('#thetree .zoom').click(function() {
+        zoom($(this).parent().parent());
     });
-    */
 
-    $('#thetree .node').click(function(event) {
-        var li = $(this).parent();
+    $('#thetree .text').click(function(event) {
+        var li = $(this).parent().parent();
         obj = li.has("ul");
         if (!obj[0]) {
             return;
