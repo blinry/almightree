@@ -2,10 +2,20 @@
     color: blue;
 }
 
+#thetree li.zoom > .node {
+    color: white;
+}
+
 #thetree li.filter .node {
     color: red;
     display: none;
 }
+
+/*
+#thetree li.crumb > .node > .zoom {
+    display: none;
+}
+*/
 
 li.zoom li .highlight {
     background-color: green; color: black
@@ -25,7 +35,7 @@ li.crumb:before {
     content: "> ";
 }
 
-#thetree > li.crumb:before {
+#thetree > ul > li.crumb:before {
     content: "" !important;
 }
 

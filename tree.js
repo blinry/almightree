@@ -62,7 +62,7 @@ $(function(){
     $('#thetree .text').click(function(event) {
         var li = $(this).parent().parent();
         obj = li.has("ul");
-        if (!obj[0]) {
+        if (!obj[0] || li.hasClass("crumb") || li.hasClass("zoom")) {
             return;
         }
 
