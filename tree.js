@@ -3,8 +3,8 @@ function filter(fullTerm) {
     // in case it was taken from the URL
     $("#search").val(fullTerm);
 
-    //$("#thetree li.zoom").removeHighlight();
-    $("#thetree .zoom li").show();
+    //$("#thetree ").removeHighlight();
+    $("#thetree li").show();
 
     if(fullTerm.length < 1){
         document.title = "morr.cc";
@@ -16,57 +16,34 @@ function filter(fullTerm) {
         var terms = fullTerm.split("/");
         for (var i=0; i<terms.length; i++) {
             var term = terms[i];
-            var hits = $("#thetree li.zoom li:visible > .node > .text:containsCI("+term+")");
-            $("#thetree .zoom li").hide();
+            var hits = $("#thetree li:visible > .node > .text:containsCI("+term+")");
+            $("#thetree li").hide();
 
-            hits.parentsUntil("#thetree li.zoom", "li").show();
+            hits.parentsUntil("#thetree", "li").show();
             hits.parent().parent().find("li").show();
 
-            //$("#thetree li.zoom").highlight(term);
+            //$("#thetree li").highlight(term);
         }
-        //update();
     }
+    update();
 }
 
 function update() {
-    $("#thetree .zoom li").removeClass("folded");
-    //$("#thetree .zoom li").has("li:hidden").addClass("folded");
-}
-
-// show only <li> `item` and below
-function zoom(item) {
-    filter("");
-    $("#thetree li").removeClass("crumb zoom folded");
-    item.addClass("zoom");
-    item.parentsUntil("#thetree", "li").addClass("crumb");
-}
-
-// fold current subtrees
-function compress() {
-    $(".zoom li").has("ul").addClass("folded");
-    $(".zoom li").find("li").hide();
-}
-
-// open or close a tree, if possible
-function foldToggle(item) {
-    var li = item.parent().parent();
-
-    if (!li.has("ul")[0]) {
-        return;
+    $("#thetree li").removeClass("zooom crumb");
+    li = $("#thetree li").first();
+    var visibleChildren = 1;
+    while(visibleChildren == 1) {
+        visibleChildren = li.children("ul").children(":visible").size();
+        if (visibleChildren == 1) {
+            li = li.children("ul").children("li:visible");
+        }
     }
-
-    if (li.hasClass("folded")) {
-        li.removeClass("folded");
-        li.children().children("li").show();
-    } else {
-        li.addClass("folded");
-        li.children().children("li").hide();
-    }
+    li.addClass("zooom");
+    li.parentsUntil("#thetree", "li").addClass("crumb");
 }
 
 function zoomOnHash() {
     term = window.location.hash.substr(1);
-    zoom($("#thetree li").first());
     filter(term);
 }
 
@@ -81,12 +58,8 @@ $(function(){
     );
 
     $("#thetree .text").click(function() {
-        zoom($(this).parent().parent());
+        filter($(this).text());
     })
-
-    $("#thetree .node .zoom").click(function() {
-        foldToggle($(this));
-    });
 
     $("#search").keyup(function(e) {
         filter($(this).val());

@@ -1,6 +1,58 @@
-#thetree li.zoom .highlight {
+#thetree .highlight {
     background-color: yellow;
 }
+
+#thetree li {
+    list-style: none;
+}
+
+li.zooom > .node {
+    font-size: 50px;
+}
+
+li.crumb > .node {
+    color: gray;
+}
+
+li.crumb {
+    display: inline !important;
+}
+
+li.crumb > ul {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+li.crumb > .node:after {
+    content: " ›";
+}
+
+/*
+li.crumb > ul {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
+
+li.crumb:before {
+    content: "> ";
+}
+
+#thetree > ul > li.crumb:before {
+    content: "" !important;
+}
+*/
+
+/*
+li.crumb li {
+    display: none;
+}
+
+li.zooom {
+    display: block !important;
+}
+*/
 
 /*
 * {
