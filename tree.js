@@ -1,25 +1,31 @@
 // show only subtrees of currently focused node that contain `regex`
-function filter(regex) {
+function filter(fullTerm) {
     // in case it was taken from the URL
-    $("#search").val(regex);
+    $("#search").val(fullTerm);
 
-    // update URL and title
-    window.history.replaceState("","","index.html#"+regex);
-    document.title = "morr.cc - "+regex;
+    //$("#thetree li.zoom").removeHighlight();
+    $("#thetree .zoom li").show();
 
-    $("#thetree li.zoom").removeHighlight();
-
-    if(regex.length < 3){
-        $("#thetree .zoom li").show();
+    if(fullTerm.length < 1){
         document.title = "morr.cc";
     } else {
-        $("#thetree .zoom li").hide();
+        // update URL and title
+        window.history.replaceState("","","index.html#"+fullTerm);
+        document.title = "morr.cc - "+fullTerm;
 
-        $("#thetree li.zoom .text:containsCI("+regex+")").parentsUntil("#thetree li.zoom", "li").show();
+        var terms = fullTerm.split("/");
+        for (var i=0; i<terms.length; i++) {
+            var term = terms[i];
+            var hits = $("#thetree li.zoom li:visible > .node > .text:containsCI("+term+")");
+            $("#thetree .zoom li").hide();
 
-       $("#thetree li.zoom").highlight(regex);
+            hits.parentsUntil("#thetree li.zoom", "li").show();
+            hits.parent().parent().find("li").show();
+
+            //$("#thetree li.zoom").highlight(term);
+        }
+        //update();
     }
-   update();
 }
 
 function update() {
