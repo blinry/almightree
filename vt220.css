@@ -1,4 +1,4 @@
-#thetree .highlight {
+#thetree .headline li .highlight {
     background-color: yellow;
 }
 
@@ -6,7 +6,11 @@
     list-style: none;
 }
 
-li.zooom > .node {
+#thetree .headline li {
+    list-style: disc;
+}
+
+li.headline > .node {
     font-size: 50px;
 }
 
@@ -49,7 +53,7 @@ li.crumb li {
     display: none;
 }
 
-li.zooom {
+li.headline {
     display: block !important;
 }
 */

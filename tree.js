@@ -3,18 +3,19 @@ function filter(fullTerm) {
     // in case it was taken from the URL
     $("#search").val(fullTerm);
 
-    //$("#thetree ").removeHighlight();
     $("#thetree li").show();
 
-    if(fullTerm.length < 1){
-        document.title = "morr.cc";
-    } else {
-        // update URL and title
-        window.history.replaceState("","","index.html#"+fullTerm);
-        document.title = "morr.cc - "+fullTerm;
+    // update URL and title
+    window.history.replaceState("","","index.html#"+fullTerm);
+    document.title = "morr.cc - "+fullTerm;
 
+    if(fullTerm.length < 2){
+        document.title = "morr.cc";
+        $("#thetree").removeHighlight();
+    } else {
         var terms = fullTerm.split("/");
         for (var i=0; i<terms.length; i++) {
+            $("#thetree").removeHighlight();
             var term = terms[i];
             var hits = $("#thetree li:visible > .node > .text:containsCI("+term+")");
             $("#thetree li").hide();
@@ -22,14 +23,15 @@ function filter(fullTerm) {
             hits.parentsUntil("#thetree", "li").show();
             hits.parent().parent().find("li").show();
 
-            //$("#thetree li").highlight(term);
+            $("#thetree").highlight(term);
         }
     }
     update();
+    $("#search").focus();
 }
 
 function update() {
-    $("#thetree li").removeClass("zooom crumb");
+    $("#thetree li").removeClass("headline crumb");
     li = $("#thetree li").first();
     var visibleChildren = 1;
     while(visibleChildren == 1) {
@@ -38,7 +40,7 @@ function update() {
             li = li.children("ul").children("li:visible");
         }
     }
-    li.addClass("zooom");
+    li.addClass("headline");
     li.parentsUntil("#thetree", "li").addClass("crumb");
 }
 
@@ -58,7 +60,11 @@ $(function(){
     );
 
     $("#thetree .text").click(function() {
-        filter($(this).text());
+        if ($(this).parent().parent().parent().parent().is("#thetree")) {
+            filter("");
+        } else {
+            filter($(this).text().toLowerCase());
+        }
     })
 
     $("#search").keyup(function(e) {
