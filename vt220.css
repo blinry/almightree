@@ -1,10 +1,15 @@
+#thetree li.zoom .highlight {
+    background-color: yellow;
+}
+
+/*
 * {
     margin: 0;
     padding; 0;
 }
 
 #thetree .node .zoom {
-    color: #666; /* >:} */
+    color: #666;
 }
 
 #thetree li.folded > .node > .zoom {
@@ -15,18 +20,10 @@
     color: white;
 }
 
-#thetree li.filter .node {
-    color: red;
-    display: none;
-}
-
 #thetree li.crumb > .node > .zoom, #thetree li.zoom > .node > .zoom {
     display: none;
 }
 
-li.zoom li .highlight {
-    background-color: green; color: black
-}
 
 li .node .zoom:before {
     content: "○";
@@ -75,14 +72,7 @@ li.zoom {
 }
 
 li.zoom li {
-    display: list-item !important;
     font-size: 20px;
-}
-
-li.filter {
-    color: red !important;
-    height: 0;
-    overflow: hidden;
 }
 
 li {
@@ -119,3 +109,4 @@ a:hover {
 #thetree {
     margin-left: 1em;
 }
+*/

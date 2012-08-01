@@ -1,6 +1,5 @@
 // show only subtrees of currently focused node that contain `regex`
 function filter(regex) {
-
     // in case it was taken from the URL
     $("#search").val(regex);
 
@@ -8,48 +7,38 @@ function filter(regex) {
     window.history.replaceState("","","index.html#"+regex);
     document.title = "morr.cc - "+regex;
 
-    //$("#thetree .zoom").removeHighlight();
+    $("#thetree li.zoom").removeHighlight();
 
-    if(regex.length==0){
+    if(regex.length < 3){
+        $("#thetree .zoom li").show();
         document.title = "morr.cc";
-        //compress();
-        return;
+    } else {
+        $("#thetree .zoom li").hide();
+
+        $("#thetree li.zoom .text:containsCI("+regex+")").parentsUntil("#thetree li.zoom", "li").show();
+
+       $("#thetree li.zoom").highlight(regex);
     }
+   update();
+}
 
-    $("#thetree .zoom li").addClass("filter");
+function update() {
     $("#thetree .zoom li").removeClass("folded");
-
-    var re = new RegExp(regex, "i");
-    
-    $("#thetree li.zoom li .text").each(function() {
-        var hasMatch = re.test($(this).text());
-        if (hasMatch) {
-            $(this).parent().parent().addClass("filter");
-            $(this).parentsUntil("#thetree .zoom", "li").removeClass("filter");
-        }
-    });
-
-    $("#thetree li.zoom li").has(".filter").addClass("folded");
-
-   // $("#thetree li.zoom").highlight(regex);
+    //$("#thetree .zoom li").has("li:hidden").addClass("folded");
 }
 
 // show only <li> `item` and below
 function zoom(item) {
     filter("");
-    $("#search").val("");
-    $("#thetree li").each(function() {
-        $(this).removeClass("crumb zoom filter folded");
-    });
+    $("#thetree li").removeClass("crumb zoom folded");
     item.addClass("zoom");
     item.parentsUntil("#thetree", "li").addClass("crumb");
-    //compress();
 }
 
 // fold current subtrees
 function compress() {
     $(".zoom li").has("ul").addClass("folded");
-    $(".zoom li").find("li").addClass("filter");
+    $(".zoom li").find("li").hide();
 }
 
 // open or close a tree, if possible
@@ -62,32 +51,44 @@ function foldToggle(item) {
 
     if (li.hasClass("folded")) {
         li.removeClass("folded");
-        li.children().children("li").removeClass("filter");
+        li.children().children("li").show();
     } else {
         li.addClass("folded");
-        li.children().children("li").addClass("filter");
+        li.children().children("li").hide();
     }
 }
 
-function init() {
-
-}
-
-$(function(){
-    $("#thetree .text").click(function() {
-        zoom($(this).parent().parent());
-    });
-
-    $("#thetree .zoom").click(function() {
-        foldToggle($(this));
-    });
-
-    $("#search").keyup(function() {
-        filter($(this).val());
-    });
-
+function zoomOnHash() {
     term = window.location.hash.substr(1);
     zoom($("#thetree li").first());
     filter(term);
-    //compress();
+}
+
+$(function(){
+    jQuery.extend (
+        jQuery.expr[':'].containsCI = function (a, i, m) {
+            //-- faster than jQuery(a).text()
+            var sText   = (a.textContent || a.innerText || "");     
+            var zRegExp = new RegExp (m[3], 'i');
+            return zRegExp.test (sText);
+        }
+    );
+
+    $("#thetree .text").click(function() {
+        zoom($(this).parent().parent());
+    })
+
+    $("#thetree .node .zoom").click(function() {
+        foldToggle($(this));
+    });
+
+    $("#search").keyup(function(e) {
+        filter($(this).val());
+    });
+
+    $(window).bind("hashchange", function() {
+        zoomOnHash();
+    });
+
+    zoomOnHash();
 });
