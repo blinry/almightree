@@ -8,28 +8,30 @@ function filter(regex) {
     window.history.replaceState("","","index.html#"+regex);
     document.title = "morr.cc - "+regex;
 
-    $("#thetree li.zoom").removeHighlight();
-
-    $("#thetree li").removeClass("filter folded");
+    //$("#thetree .zoom").removeHighlight();
 
     if(regex.length==0){
         document.title = "morr.cc";
-        compress();
+        //compress();
         return;
     }
 
-    var re = new RegExp(regex, "i");
+    $("#thetree .zoom li").addClass("filter");
+    $("#thetree .zoom li").removeClass("folded");
 
-    $("#thetree li.zoom li").each(function() {
+    var re = new RegExp(regex, "i");
+    
+    $("#thetree li.zoom li .text").each(function() {
         var hasMatch = re.test($(this).text());
-        if (!hasMatch) {
-            $(this).addClass("filter");
+        if (hasMatch) {
+            $(this).parent().parent().addClass("filter");
+            $(this).parentsUntil("#thetree .zoom", "li").removeClass("filter");
         }
     });
 
     $("#thetree li.zoom li").has(".filter").addClass("folded");
 
-    $("#thetree li.zoom").highlight(regex);
+   // $("#thetree li.zoom").highlight(regex);
 }
 
 // show only <li> `item` and below
@@ -41,7 +43,7 @@ function zoom(item) {
     });
     item.addClass("zoom");
     item.parentsUntil("#thetree", "li").addClass("crumb");
-    compress();
+    //compress();
 }
 
 // fold current subtrees
@@ -67,6 +69,10 @@ function foldToggle(item) {
     }
 }
 
+function init() {
+
+}
+
 $(function(){
     $("#thetree .text").click(function() {
         zoom($(this).parent().parent());
@@ -83,4 +89,5 @@ $(function(){
     term = window.location.hash.substr(1);
     zoom($("#thetree li").first());
     filter(term);
+    //compress();
 });

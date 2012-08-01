@@ -1,4 +1,13 @@
-#thetree li.folded > .node {
+* {
+    margin: 0;
+    padding; 0;
+}
+
+#thetree .node .zoom {
+    color: #666; /* >:} */
+}
+
+#thetree li.folded > .node > .zoom {
     color: blue;
 }
 
@@ -17,6 +26,14 @@
 
 li.zoom li .highlight {
     background-color: green; color: black
+}
+
+li .node .zoom:before {
+    content: "○";
+}
+
+li.folded .node .zoom:before {
+    content: "●";
 }
 
 li.crumb {
@@ -54,7 +71,7 @@ li.crumb li {
 li.zoom {
     display: block !important;
     font-size: 40px;
-    padding-top: 0.5em;
+    padding-top: 0em;
 }
 
 li.zoom li {
@@ -83,8 +100,6 @@ body {
 
 #main {
     font-size: 20px;
-    width: 80ex;
-    margin: 0 auto;
 }
 
 a:link, a:visited {
@@ -93,4 +108,14 @@ a:link, a:visited {
 
 a:hover {
     color: #0f0;
+}
+
+#search {
+    margin-left: 4em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+#thetree {
+    margin-left: 1em;
 }
