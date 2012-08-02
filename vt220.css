@@ -1,5 +1,10 @@
+#thetree .highlight {
+    border-bottom: 5px solid yellow;
+}
+
 #thetree .headline li .highlight {
     background-color: yellow;
+    border: none;
 }
 
 #thetree li {

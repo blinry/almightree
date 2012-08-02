@@ -6,7 +6,11 @@ function filter(fullTerm) {
     $("#thetree li").show();
 
     // update URL and title
-    window.history.replaceState("","","index.html#"+fullTerm);
+    if(window.location.pathname.match("index.html")) {
+        window.history.replaceState("","","index.html#"+fullTerm);
+    } else {
+        window.history.replaceState("","","/"+fullTerm);
+    }
     document.title = "morr.cc - "+fullTerm;
 
     if(fullTerm.length < 2){
@@ -45,7 +49,11 @@ function update() {
 }
 
 function zoomOnHash() {
-    term = window.location.hash.substr(1);
+    if(window.location.pathname.match("index.html")) {
+        term = window.location.hash.substr(1);
+    } else {
+    term = window.location.pathname.substr(1);
+    }
     filter(term);
 }
 
