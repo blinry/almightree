@@ -21,11 +21,11 @@ function filter(fullTerm) {
         for (var i=0; i<terms.length; i++) {
             $("#thetree").removeHighlight();
             var term = terms[i];
-            var hits = $("#thetree li:visible > .node > .text:containsCI("+term+")");
+            var hits = $("#thetree li:visible > .node:containsCI("+term+")");
             $("#thetree li").hide();
 
             hits.parentsUntil("#thetree", "li").show();
-            hits.parent().parent().find("li").show();
+            hits.parent().find("li").show();
 
             $("#thetree").highlight(term);
         }
@@ -67,8 +67,8 @@ $(function(){
         }
     );
 
-    $("#thetree .text").click(function() {
-        if ($(this).parent().parent().parent().parent().is("#thetree")) {
+    $("#thetree .node").click(function() {
+        if ($(this).parent().parent().parent().is("#thetree")) {
             filter("");
         } else {
             filter($(this).text().toLowerCase());
