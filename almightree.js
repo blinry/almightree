@@ -13,29 +13,61 @@ function filter(fullTerm) {
     }
     document.title = "morr.cc - "+fullTerm;
 
+    $("#thetree").removeHighlight();
     if(fullTerm.length < 3){
         document.title = "morr.cc";
-        $("#thetree").removeHighlight();
     } else {
         var terms = fullTerm.split("/");
         var lastValidTerm;
         for (var i=0; i<terms.length; i++) {
-            $("#thetree").removeHighlight();
             var term = terms[i];
             if (term == "") {
                 continue;
             }
             lastValidTerm = term;
-            var hits = $("#thetree li:visible > .node:containsCI("+term+")");
-            $("#thetree li").hide();
-
-            hits.parentsUntil("#thetree", "li").show();
-            hits.parent().find("li").show();
+            filterTerm(term);
+            //filterTerm(new RegExp(term,'i'));
         }
         $("#thetree").highlight(lastValidTerm);
     }
     update();
-    $("#search").focus();
+    //$("#search").focus();
+}
+
+function filterTerm(term) {
+    /*
+    recursiveFilter(term, $("#thetree > ul > li"));
+    */
+    var hits = $("#thetree li:visible > .node:containsCI("+term+")");
+    $("#thetree li").hide();
+
+    hits.each(function() {
+        $(this).parentsUntil("#thetree", "li").show();
+        $(this).parent().find("li").show();
+    });
+}
+
+function recursiveFilter(term, li) {
+    var text = li.children(".node").text();
+    //var hit = term.test (text);
+    var hit = text.indexOf(term) == -1 ? false : true;
+
+    if (hit) {
+        return true;
+    } else {
+        var allChildrenFiltered = true;
+        li.children("ul").children("li:visible").each(function() {
+            if (recursiveFilter(term, $(this))) {
+                allChildrenFiltered = false;
+            }
+        });
+        if (allChildrenFiltered) {
+            li.hide();
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 
 function update() {
@@ -79,8 +111,10 @@ $(function(){
         }
     })
 
+    var timer;
     $("#search").keyup(function(e) {
-        filter($(this).val());
+        clearTimeout(timer);
+        timer = setTimeout(function(){filter($("#search").val())},250);
     });
 
     $(window).bind("hashchange", function() {
