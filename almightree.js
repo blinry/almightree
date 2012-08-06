@@ -18,17 +18,21 @@ function filter(fullTerm) {
         $("#thetree").removeHighlight();
     } else {
         var terms = fullTerm.split("/");
+        var lastValidTerm;
         for (var i=0; i<terms.length; i++) {
             $("#thetree").removeHighlight();
             var term = terms[i];
+            if (term == "") {
+                continue;
+            }
+            lastValidTerm = term;
             var hits = $("#thetree li:visible > .node:containsCI("+term+")");
             $("#thetree li").hide();
 
             hits.parentsUntil("#thetree", "li").show();
             hits.parent().find("li").show();
-
-            $("#thetree").highlight(term);
         }
+        $("#thetree").highlight(lastValidTerm);
     }
     update();
     $("#search").focus();
@@ -52,7 +56,7 @@ function zoomOnHash() {
     if(window.location.pathname.match("index.html")) {
         term = window.location.hash.substr(1);
     } else {
-    term = window.location.pathname.substr(1);
+        term = window.location.pathname.substr(1);
     }
     filter(term);
 }
