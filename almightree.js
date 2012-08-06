@@ -13,7 +13,7 @@ function filter(fullTerm) {
     }
     document.title = "morr.cc - "+fullTerm;
 
-    if(fullTerm.length < 2){
+    if(fullTerm.length < 3){
         document.title = "morr.cc";
         $("#thetree").removeHighlight();
     } else {

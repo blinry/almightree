@@ -34,7 +34,7 @@ li.crumb > ul {
 }
 
 li.crumb > .node:after {
-    content: " ›";
+    content: " › ";
 }
 
 /*
