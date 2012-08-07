@@ -13,6 +13,8 @@ function filter(fullTerm) {
     }
     document.title = "morr.cc - "+fullTerm;
 
+    fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
+
     $("#thetree").removeHighlight();
     if(fullTerm.length < 3){
         document.title = "morr.cc";
@@ -26,7 +28,6 @@ function filter(fullTerm) {
             }
             lastValidTerm = term;
             filterTerm(term);
-            //filterTerm(new RegExp(term,'i'));
         }
         $("#thetree").highlight(lastValidTerm);
     }
@@ -35,16 +36,11 @@ function filter(fullTerm) {
 }
 
 function filterTerm(term) {
-    /*
-    recursiveFilter(term, $("#thetree > ul > li"));
-    */
     var hits = $("#thetree li:visible > .node:containsCI("+term+")");
     $("#thetree li").hide();
 
-    hits.each(function() {
-        $(this).parentsUntil("#thetree", "li").show();
-        $(this).parent().find("li").show();
-    });
+    hits.parentsUntil("#thetree", "li").show();
+    hits.parent().find("li").show();
 }
 
 function recursiveFilter(term, li) {
@@ -93,6 +89,16 @@ function zoomOnHash() {
     filter(term);
 }
 
+function stringToSlug(str) {
+    str = str.toLowerCase()
+        .replace(/^\s+|\s+$/g, '') // trim
+        .replace(/[^a-z0-9üöäßÜÖÄẞ-]/g, '-')
+        .replace(/-+/g, '-') // collapse dashes
+        .replace(/^-|-$/g, ''); // trim
+
+    return str;
+}
+
 $(function(){
     jQuery.extend (
         jQuery.expr[':'].containsCI = function (a, i, m) {
@@ -107,14 +113,14 @@ $(function(){
         if ($(this).parent().parent().parent().is("#thetree")) {
             filter("");
         } else {
-            filter($(this).text().toLowerCase());
+            filter(stringToSlug($(this).text()));
         }
     })
 
     var timer;
     $("#search").keyup(function(e) {
         clearTimeout(timer);
-        timer = setTimeout(function(){filter($("#search").val())},250);
+        timer = setTimeout(function(){filter($("#search").val())}, 250);
     });
 
     $(window).bind("hashchange", function() {
