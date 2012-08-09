@@ -86,6 +86,7 @@ function zoomOnHash() {
     } else {
         term = window.location.pathname.substr(1);
     }
+    term = decodeURIComponent(term);
     filter(term);
 }
 
