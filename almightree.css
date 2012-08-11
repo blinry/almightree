@@ -12,51 +12,51 @@ body {
     margin-top: 20px;
 }
 
-#thetree .highlight {
+#almightree .highlight {
     background-color: #ff8;
 }
 
-#thetree li {
+#almightree li {
     list-style: none;
 }
 
-#thetree .headline li{
+#almightree .headline li{
     list-style: disc;
 }
 
-#thetree .headline ul .node:hover {
+#almightree .headline ul .node:hover {
     list-style: disc;
     background: #aee;
 }
 
-#thetree li.headline > .node {
+#almightree li.headline > .node {
     font-size: 50px;
 }
 
-#thetree li.headline > ul {
+#almightree li.headline > ul {
     padding-top: 1em;
     padding-left: 3em;
 }
 
-#thetree li.crumb > .node {
+#almightree li.crumb > .node {
     color: #888;
     cursor: pointer;
 }
 
-#thetree li.crumb > .node:hover {
+#almightree li.crumb > .node:hover {
     color: #333;
 }
 
-#thetree li.crumb {
+#almightree li.crumb {
     display: inline !important;
 }
 
-#thetree li.crumb > ul {
+#almightree li.crumb > ul {
     display: inline;
     padding: 0;
     margin: 0;
 }
 
-#thetree li.crumb > .node:after {
+#almightree li.crumb > .node:after {
     content: " › ";
 }

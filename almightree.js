@@ -3,7 +3,7 @@ function filter(fullTerm) {
     // in case it was taken from the URL
     $("#search").val(fullTerm);
 
-    $("#thetree li").show();
+    $("#almightree li").show();
 
     // update URL and title
     if(window.location.pathname.match("index.html")) {
@@ -15,7 +15,7 @@ function filter(fullTerm) {
 
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
 
-    $("#thetree").removeHighlight();
+    $("#almightree").removeHighlight();
     if(fullTerm.length < 3){
         document.title = "morr.cc";
     } else {
@@ -29,17 +29,17 @@ function filter(fullTerm) {
             lastValidTerm = term;
             filterTerm(term);
         }
-        $("#thetree").highlight(lastValidTerm);
+        $("#almightree").highlight(lastValidTerm);
     }
     update();
     //$("#search").focus();
 }
 
 function filterTerm(term) {
-    var hits = $("#thetree li:visible > .node:containsCI("+term+")");
-    $("#thetree li").hide();
+    var hits = $("#almightree li:visible > .node:containsCI("+term+")");
+    $("#almightree li").hide();
 
-    hits.parentsUntil("#thetree", "li").show();
+    hits.parentsUntil("#almightree", "li").show();
     hits.parent().find("li").show();
 }
 
@@ -67,8 +67,8 @@ function recursiveFilter(term, li) {
 }
 
 function update() {
-    $("#thetree li").removeClass("headline crumb");
-    li = $("#thetree li").first();
+    $("#almightree li").removeClass("headline crumb");
+    li = $("#almightree li").first();
     var visibleChildren = 1;
     while(visibleChildren == 1) {
         visibleChildren = li.children("ul").children(":visible").size();
@@ -77,7 +77,7 @@ function update() {
         }
     }
     li.addClass("headline");
-    li.parentsUntil("#thetree", "li").addClass("crumb");
+    li.parentsUntil("#almightree", "li").addClass("crumb");
 }
 
 function zoomOnHash() {
@@ -102,7 +102,7 @@ function stringToSlug(str) {
 
 $(function(){
     //surround each li's text with a span for easier access
-    $("#thetree li").each(function(){
+    $("#almightree li").each(function(){
         $(this.firstChild).wrap('<span class="node"></span>');
     });
 
@@ -115,8 +115,8 @@ $(function(){
         }
     );
 
-    $("#thetree .node").click(function() {
-        if ($(this).parent().parent().parent().is("#thetree")) {
+    $("#almightree .node").click(function() {
+        if ($(this).parent().parent().parent().is("#almightree")) {
             filter("");
         } else {
             filter(stringToSlug($(this).text()));
