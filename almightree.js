@@ -116,7 +116,7 @@ $(function(){
     );
 
     $("#almightree .node").click(function() {
-        if ($(this).parent().parent().parent().is("#almightree")) {
+        if ($(this).parent().parent().is("#almightree")) {
             filter("");
         } else {
             filter(stringToSlug($(this).text()));
