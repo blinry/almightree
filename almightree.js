@@ -101,6 +101,11 @@ function stringToSlug(str) {
 }
 
 $(function(){
+    //surround each li's text with a span for easier access
+    $("#thetree li").each(function(){
+        $(this.firstChild).wrap('<span class="node"></span>');
+    });
+
     jQuery.extend (
         jQuery.expr[':'].containsCI = function (a, i, m) {
             //-- faster than jQuery(a).text()
