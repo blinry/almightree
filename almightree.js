@@ -89,14 +89,13 @@ function update() {
     li.parentsUntil("#almightree", "li").addClass("crumb");
 }
 
-function zoomOnHash() {
+function getTermFromURL() {
     if(window.location.pathname.match("index.html")) {
         term = window.location.hash.substr(1);
     } else {
         term = window.location.pathname.substr(1);
     }
-    term = decodeURIComponent(term);
-    filter(term);
+    return decodeURIComponent(term);
 }
 
 function stringToSlug(str) {
@@ -110,27 +109,28 @@ function stringToSlug(str) {
 }
 
 $(function(){
-    //surround each li's text with a span for easier access
+    // surround each li's text with a span for easier access
     $("#almightree li").each(function(){
         $(this.firstChild).wrap('<span class="node"></span>');
     });
 
+    // enable filtering by regular experession
     jQuery.extend (
         jQuery.expr[':'].containsCI = function (a, i, m) {
-            //-- faster than jQuery(a).text()
             var sText   = (a.textContent || a.innerText || "");     
             var zRegExp = new RegExp (m[3], 'i');
             return zRegExp.test (sText);
         }
     );
 
-    $("#almightree .node").click(function() {
+    // if a node is clicked, search for it
+    $("#almightree .node").click(function(e) {
         if ($(this).parent().parent().is("#almightree")) {
             filter("", true);
         } else {
             filter(stringToSlug($(this).text()), true);
         }
-    })
+    });
 
     $("#almightree-clear").click(function(e) {
         filter("", true);
@@ -140,13 +140,9 @@ $(function(){
     var timer;
     $("#search").keyup(function(e) {
         clearTimeout(timer);
-        timer = setTimeout(function(){filter($("#search").val())}, 250);
-    });
-
-    $(window).bind("hashchange", function() {
-        zoomOnHash();
+        timer = setTimeout(function(){filter($("#search").val())}, 0);
     });
 
     originalTitle = document.title;
-    zoomOnHash();
+    filter(getTermFromURL());
 });
