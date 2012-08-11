@@ -20,12 +20,15 @@ body {
     list-style: none;
 }
 
-#almightree .headline li{
-    list-style: disc;
+#almightree .headline li .node {
+    border: 1px solid #aaa;
+    border-radius: 7px;
+    padding: 3px;
+    margin: 3px;
+    display: inline-block;
 }
 
 #almightree .headline ul .node:hover {
-    list-style: disc;
     background: #aee;
 }
 
@@ -35,7 +38,7 @@ body {
 
 #almightree li.headline > ul {
     padding-top: 1em;
-    padding-left: 3em;
+    padding-left: 2em;
 }
 
 #almightree li.crumb > .node {
