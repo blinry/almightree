@@ -1,16 +1,25 @@
 // show only subtrees of currently focused node that contain `regex`
-function filter(fullTerm) {
+function filter(fullTerm, undoable) {
+    // by default, the filter action is not undoable
+    undoable = typeof undoable !== 'undefined' ? undoable : false;
+
     // in case it was taken from the URL
     $("#search").val(fullTerm);
 
     $("#almightree li").show();
 
-    // update URL and title
+    // update URL
     if(window.location.pathname.match("index.html")) {
-        window.history.replaceState("","","index.html#"+fullTerm);
+        newPath = "index.html#"+fullTerm;
     } else {
-        window.history.replaceState("","","/"+fullTerm);
+        newPath = "/"+fullTerm;
     }
+    if (undoable) {
+        window.history.pushState("", "", newPath);
+    } else {
+        window.history.replaceState("", "", newPath);
+    }
+    // ... and title
     document.title = originalTitle+" - "+fullTerm;
 
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
@@ -117,14 +126,14 @@ $(function(){
 
     $("#almightree .node").click(function() {
         if ($(this).parent().parent().is("#almightree")) {
-            filter("");
+            filter("", true);
         } else {
-            filter(stringToSlug($(this).text()));
+            filter(stringToSlug($(this).text()), true);
         }
     })
 
     $("#almightree-clear").click(function(e) {
-        filter("");
+        filter("", true);
         e.preventDefault();
     });
 
