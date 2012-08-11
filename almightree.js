@@ -123,6 +123,11 @@ $(function(){
         }
     })
 
+    $("#almightree-clear").click(function(e) {
+        filter("");
+        e.preventDefault();
+    });
+
     var timer;
     $("#search").keyup(function(e) {
         clearTimeout(timer);
