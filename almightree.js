@@ -6,7 +6,6 @@ function search(fullTerm, undoable) {
     // in case it was taken from the URL
     $("#almightree-search").val(fullTerm);
 
-    $("#almightree li").show();
 
     // update URL
     if(window.location.pathname.match("index.html")) {
@@ -27,9 +26,12 @@ function search(fullTerm, undoable) {
     $("#almightree").removeHighlight();
     if(fullTerm.length < 3){
         document.title = originalTitle;
+        $("#almightree li").show();
+        $("#almightree li li li li").hide();
     } else {
         var terms = fullTerm.split("/");
         var lastValidTerm;
+        $("#almightree li").show();
         for (var i=0; i<terms.length; i++) {
             var term = terms[i];
             if (term == "") {
@@ -48,7 +50,7 @@ function filterTerm(term) {
     $("#almightree li").hide();
 
     hits.parentsUntil("#almightree", "li").show();
-    hits.parent().find("li").show();
+    hits.parent().children("ul").children("li").show();
 }
 
 function recursiveFilter(term, li) {
@@ -87,9 +89,17 @@ function update() {
     li.addClass("headline");
     li.parentsUntil("#almightree", "li").addClass("crumb");
 
+    li.find("li").has("> ul > li:hidden").addClass("folded");   
+
+    /*
     li.find("li li").each(function(){
         foldToggle($(this));
     });
+    li.find(".highlight").parentsUntil(".headline", "li").each(function(){
+        unfold($(this));
+    });
+    */
+
 }
 
 function getTermFromURL() {
@@ -118,13 +128,29 @@ function foldToggle(li) {
     }
 
     if (li.hasClass("folded")) {
-        li.removeClass("folded");
-        li.children().children("li").show();
+        unfold(li);
     } else {
-        li.addClass("folded");
-        li.children().children("li").hide();
-     }
- }
+        fold(li);
+    }
+}
+
+function unfold(li) {
+    if (!li.has("ul")[0]) {
+        return;
+    }
+
+    li.removeClass("folded");
+    li.children().children("li").show();
+}
+
+function fold(li) {
+    if (!li.has("ul")[0]) {
+        return;
+    }
+
+    li.addClass("folded");
+    li.children().children("li").hide();
+}
 
 function initTree(ul) {
     // surround each li's text with a span for easier access

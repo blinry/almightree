@@ -46,14 +46,20 @@ body {
     padding: 3px;
     margin: 3px;
     display: inline-block;
+
+    cursor: pointer;
 }
 
-#almightree .headline li.folded .node .text {
+#almightree .headline li.folded > .node .text {
     background: #ccc;
 }
 
-#almightree .headline ul .node .text:hover {
+#almightree .headline li .node .text:hover {
     background: #eee;
+}
+
+#almightree .headline li.folded > .node .text:hover {
+    background: #aaa;
 }
 
 #almightree li.headline > .node {
