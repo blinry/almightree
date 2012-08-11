@@ -125,22 +125,34 @@ function foldToggle(li) {
 function initTree(ul) {
     // surround each li's text with a span for easier access
     $(ul).find("li").each(function(){
-        $(this.firstChild).before('<span class="zoom">o</span> ').wrap('<span class="node"></span>');
-    });
-
-    $(ul).find(".node").click(function(e) {
-        if ($(this).parent().hasClass("crumb") || $(this).parent().hasClass("headline")) {
-            search(stringToSlug($(this).text()), true);
+        if ($(this).children("ul").size() > 0) {
+            $(this).children("ul").wrapSides();
         } else {
-            foldToggle($(this).parent());
+            $(this).wrapInner('<span class="node"></span>');
+        }
+    });
+    $(ul).find(".node").wrapInner('<span class="text"></span>');
+    $(ul).find(".node").prepend('<span class="zoom">o</span> ');
+
+    $(ul).find(".text").click(function(e) {
+        var li = $(this).parent().parent();
+        if (li.hasClass("crumb") || li.hasClass("headline")) {
+            if ($(li).parent().is("#almightree")) {
+                search("", true);
+            } else {
+                search(stringToSlug($(this).text()), true);
+            }
+        } else {
+            foldToggle(li);
         }
     });
 
     $(ul).find(".zoom").click(function(e) {
-        if ($(this).parent().parent().is("#almightree")) {
+        var li = $(this).parent().parent();
+        if ($(li).parent().is("#almightree")) {
             search("", true);
         } else {
-            search(stringToSlug($(this).parent().children(".node").text()), true);
+            search(stringToSlug($(this).parent().children(".text").text()), true);
         }
     });
 
@@ -172,6 +184,37 @@ $(function(){
             return zRegExp.test (sText);
         }
     );
+
+    $.fn.wrapSides = function () {
+        return this.each( function (index, el) {
+           var $parent = $(el).parent(),
+               contents = $.makeArray($parent.contents()),
+               before, after, i, matched, build = $();
+
+            for (i = 0; i < contents.length; i++) {
+                if( contents[i] === el) {
+                    before = contents.slice(0, i);
+                    after = contents.slice( Math.min(contents.length - 1, i + 1), contents.length);
+                    matched = contents.slice(i,i + 1);
+                    break;   
+                }
+            };
+
+            if (before && before.length) {
+                build = build.add($("<span class=\"node\">").append(before));
+            }
+
+            build = build.add(matched);
+
+            /*
+            if (after && after.length) {
+                build = build.add($("<span class=\"node\">").append(after));
+            }
+            */
+
+            $parent.html( build );
+        }); 
+    };
 
     initTree("#almightree");
     initSearchbox("#almightree-search");
