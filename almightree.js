@@ -182,11 +182,13 @@ function initClear(a) {
 $(function(){
     // enable filtering by regular experession
     jQuery.extend (
-        jQuery.expr[':'].containsCI = function (a, i, m) {
-            var sText   = (a.textContent || a.innerText || "");     
-            var zRegExp = new RegExp (m[3], 'i');
-            return zRegExp.test (sText);
-        }
+        jQuery.expr[':'].containsCI = jQuery.expr.createPseudo(function(arg) {
+            return function(elem) {
+                var sText   = (elem.textContent || elem.innerText || "");     
+                var zRegExp = new RegExp (arg, 'i');
+                return zRegExp.test(sText);
+            }
+        })
     );
 
     $.fn.wrapSides = function () {
