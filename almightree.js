@@ -11,13 +11,13 @@ function filter(fullTerm) {
     } else {
         window.history.replaceState("","","/"+fullTerm);
     }
-    document.title = "morr.cc - "+fullTerm;
+    document.title = originalTitle+" - "+fullTerm;
 
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
 
     $("#almightree").removeHighlight();
     if(fullTerm.length < 3){
-        document.title = "morr.cc";
+        document.title = originalTitle;
     } else {
         var terms = fullTerm.split("/");
         var lastValidTerm;
@@ -138,5 +138,6 @@ $(function(){
         zoomOnHash();
     });
 
+    originalTitle = document.title;
     zoomOnHash();
 });
