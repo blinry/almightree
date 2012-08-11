@@ -75,7 +75,7 @@ function recursiveFilter(term, li) {
 }
 
 function update() {
-    $("#almightree li").removeClass("headline crumb");
+    $("#almightree li").removeClass("headline crumb folded");
     li = $("#almightree li").first();
     var visibleChildren = 1;
     while(visibleChildren == 1) {
@@ -107,18 +107,40 @@ function stringToSlug(str) {
     return str;
 }
 
+// open or close a tree, if possible
+function foldToggle(li) {
+    if (!li.has("ul")[0]) {
+        return;
+    }
+
+    if (li.hasClass("folded")) {
+        li.removeClass("folded");
+        li.children().children("li").show();
+    } else {
+        li.addClass("folded");
+        li.children().children("li").hide();
+     }
+ }
+
 function initTree(ul) {
     // surround each li's text with a span for easier access
     $(ul).find("li").each(function(){
-        $(this.firstChild).wrap('<span class="node"></span>');
+        $(this.firstChild).before('<span class="zoom">o</span> ').wrap('<span class="node"></span>');
     });
 
-    // if a node is clicked, search for it
     $(ul).find(".node").click(function(e) {
+        if ($(this).parent().hasClass("crumb") || $(this).parent().hasClass("headline")) {
+            search(stringToSlug($(this).text()), true);
+        } else {
+            foldToggle($(this).parent());
+        }
+    });
+
+    $(ul).find(".zoom").click(function(e) {
         if ($(this).parent().parent().is("#almightree")) {
             search("", true);
         } else {
-            search(stringToSlug($(this).text()), true);
+            search(stringToSlug($(this).parent().children(".node").text()), true);
         }
     });
 

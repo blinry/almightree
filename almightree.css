@@ -16,6 +16,14 @@ body {
     background-color: #ff8;
 }
 
+#almightree .zoom {
+    display: none;
+}
+
+#almightree .headline li .zoom {
+    display: inline;
+}
+
 #almightree li {
     list-style: none;
 }
@@ -28,8 +36,12 @@ body {
     display: inline-block;
 }
 
+#almightree .headline li.folded .node {
+    background: #ccc;
+}
+
 #almightree .headline ul .node:hover {
-    background: #aee;
+    background: #eee;
 }
 
 #almightree li.headline > .node {
