@@ -86,6 +86,10 @@ function update() {
     }
     li.addClass("headline");
     li.parentsUntil("#almightree", "li").addClass("crumb");
+
+    li.find("li li").each(function(){
+        foldToggle($(this));
+    });
 }
 
 function getTermFromURL() {
@@ -132,7 +136,7 @@ function initTree(ul) {
         }
     });
     $(ul).find(".node").wrapInner('<span class="text"></span>');
-    $(ul).find(".node").prepend('<span class="zoom">o</span> ');
+    $(ul).find(".node").append(' <span class="zoom">⚓</span> ');
 
     $(ul).find(".text").click(function(e) {
         var li = $(this).parent().parent();

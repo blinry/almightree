@@ -18,29 +18,41 @@ body {
 
 #almightree .zoom {
     display: none;
+    cursor: pointer;
 }
 
-#almightree .headline li .zoom {
-    display: inline;
+#almightree .headline .zoom {
+    display: inline-block;
+    visibility: hidden;
+}
+
+#almightree .headline li .node:hover .zoom {
+    visibility: visible;
 }
 
 #almightree li {
     list-style: none;
 }
 
-#almightree .headline li .node {
+#almightree .headline li {
+    list-style: disc;
+}
+
+#almightree .headline li .node .text {
+    /*
     border: 1px solid #aaa;
+    */
     border-radius: 7px;
     padding: 3px;
     margin: 3px;
     display: inline-block;
 }
 
-#almightree .headline li.folded .node {
+#almightree .headline li.folded .node .text {
     background: #ccc;
 }
 
-#almightree .headline ul .node:hover {
+#almightree .headline ul .node .text:hover {
     background: #eee;
 }
 
