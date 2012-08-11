@@ -1,6 +1,6 @@
 // show only subtrees of currently focused node that contain `regex`
-function filter(fullTerm, undoable) {
-    // by default, the filter action is not undoable
+function search(fullTerm, undoable) {
+    // by default, the search action is not undoable
     undoable = typeof undoable !== 'undefined' ? undoable : false;
 
     // in case it was taken from the URL
@@ -108,12 +108,41 @@ function stringToSlug(str) {
     return str;
 }
 
-$(function(){
+function initTree(ul) {
     // surround each li's text with a span for easier access
-    $("#almightree li").each(function(){
+    $(ul).find("li").each(function(){
         $(this.firstChild).wrap('<span class="node"></span>');
     });
 
+    // if a node is clicked, search for it
+    $(ul).find(".node").click(function(e) {
+        if ($(this).parent().parent().is("#almightree")) {
+            search("", true);
+        } else {
+            search(stringToSlug($(this).text()), true);
+        }
+    });
+
+    originalTitle = document.title;
+    search(getTermFromURL());
+}
+
+function initSearchbox(input) {
+    var timer;
+    $(input).keyup(function(e) {
+        clearTimeout(timer);
+        timer = setTimeout(function(){search($(input).val())}, 0);
+    });
+}
+
+function initClear(a) {
+    $(a).click(function(e) {
+        search("", true);
+        e.preventDefault();
+    });
+}
+
+$(function(){
     // enable filtering by regular experession
     jQuery.extend (
         jQuery.expr[':'].containsCI = function (a, i, m) {
@@ -123,26 +152,7 @@ $(function(){
         }
     );
 
-    // if a node is clicked, search for it
-    $("#almightree .node").click(function(e) {
-        if ($(this).parent().parent().is("#almightree")) {
-            filter("", true);
-        } else {
-            filter(stringToSlug($(this).text()), true);
-        }
-    });
-
-    $("#almightree-clear").click(function(e) {
-        filter("", true);
-        e.preventDefault();
-    });
-
-    var timer;
-    $("#search").keyup(function(e) {
-        clearTimeout(timer);
-        timer = setTimeout(function(){filter($("#search").val())}, 0);
-    });
-
-    originalTitle = document.title;
-    filter(getTermFromURL());
+    initTree("#almightree");
+    initSearchbox("#search");
+    initClear("#almightree-clear");
 });
