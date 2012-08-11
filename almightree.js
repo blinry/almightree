@@ -4,7 +4,7 @@ function search(fullTerm, undoable) {
     undoable = typeof undoable !== 'undefined' ? undoable : false;
 
     // in case it was taken from the URL
-    $("#search").val(fullTerm);
+    $("#almightree-search").val(fullTerm);
 
     $("#almightree li").show();
 
@@ -41,7 +41,6 @@ function search(fullTerm, undoable) {
         $("#almightree").highlight(lastValidTerm);
     }
     update();
-    //$("#search").focus();
 }
 
 function filterTerm(term) {
@@ -153,6 +152,6 @@ $(function(){
     );
 
     initTree("#almightree");
-    initSearchbox("#search");
+    initSearchbox("#almightree-search");
     initClear("#almightree-clear");
 });
