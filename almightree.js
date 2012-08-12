@@ -80,9 +80,13 @@ function update() {
     $("#almightree li").removeClass("headline crumb folded");
     li = $("#almightree li").first();
     var visibleChildren = 1;
-    while(visibleChildren == 1) {
+    var containsHighlight = false;
+    while(visibleChildren == 1 && !containsHighlight) {
         visibleChildren = li.children("ul").children(":visible").size();
         if (visibleChildren == 1) {
+            if (li.children(".node").find(".highlight").size() > 0) {
+                break;
+            }
             li = li.children("ul").children("li:visible");
         }
     }
