@@ -51,6 +51,7 @@ function filterTerm(term) {
 
     hits.parentsUntil("#almightree", "li").show();
     hits.parent().children("ul").children("li").show();
+    hits.parent().children("ul").children("li").children("ul").children("li").show();
 }
 
 function recursiveFilter(term, li) {
@@ -89,17 +90,7 @@ function update() {
     li.addClass("headline");
     li.parentsUntil("#almightree", "li").addClass("crumb");
 
-    li.find("li").has("> ul > li:hidden").addClass("folded");   
-
-    /*
-    li.find("li li").each(function(){
-        foldToggle($(this));
-    });
-    li.find(".highlight").parentsUntil(".headline", "li").each(function(){
-        unfold($(this));
-    });
-    */
-
+    li.find("li:has(> ul > li:hidden)").addClass("folded");   
 }
 
 function getTermFromURL() {
@@ -194,7 +185,7 @@ function initSearchbox(input) {
     var timer;
     $(input).keyup(function(e) {
         clearTimeout(timer);
-        timer = setTimeout(function(){search($(input).val())}, 0);
+        timer = setTimeout(function(){search($(input).val())}, 250);
     });
 }
 
