@@ -22,12 +22,13 @@ body {
 }
 
 #almightree .headline .zoom {
-    display: inline-block;
+    display: inline;
     visibility: hidden;
 }
 
 #almightree .headline li .node:hover .zoom {
     visibility: visible;
+    padding: 6px;
 }
 
 #almightree li {
@@ -38,24 +39,25 @@ body {
     list-style: disc;
 }
 
+#almightree .headline li .node {
+    padding: 3px 0;
+    margin: 9px 0;
+    display: block;
+    vertical-align: middle;
+}
+
 #almightree .headline li .node .text {
-    /*
-    border: 1px solid #aaa;
-    */
     border-radius: 7px;
     padding: 3px;
-    margin: 3px;
-    display: inline-block;
-
-    cursor: pointer;
 }
 
 #almightree .headline li.folded > .node .text {
     background: #ccc;
 }
 
-#almightree .headline li .node .text:hover {
+#almightree .headline li.foldable > .node .text:hover {
     background: #eee;
+    cursor: pointer;
 }
 
 #almightree .headline li.folded > .node .text:hover {
@@ -73,11 +75,11 @@ body {
 
 #almightree li.crumb > .node {
     color: #888;
-    cursor: pointer;
 }
 
-#almightree li.crumb > .node:hover {
+#almightree li.crumb > .node .text:hover {
     color: #333;
+    cursor: pointer;
 }
 
 #almightree li.crumb {

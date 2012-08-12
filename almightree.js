@@ -90,7 +90,7 @@ function update() {
     li.addClass("headline");
     li.parentsUntil("#almightree", "li").addClass("crumb");
 
-    li.find("li:has(> ul > li:hidden)").addClass("folded");   
+    li.find("li.foldable:has(> ul > li:hidden)").addClass("folded");   
 }
 
 function getTermFromURL() {
@@ -114,7 +114,7 @@ function stringToSlug(str) {
 
 // open or close a tree, if possible
 function foldToggle(li) {
-    if (!li.has("ul")[0]) {
+    if (!li.hasClass("foldable")) {
         return;
     }
 
@@ -126,7 +126,7 @@ function foldToggle(li) {
 }
 
 function unfold(li) {
-    if (!li.has("ul")[0]) {
+    if (!li.hasClass("foldable")) {
         return;
     }
 
@@ -135,7 +135,7 @@ function unfold(li) {
 }
 
 function fold(li) {
-    if (!li.has("ul")[0]) {
+    if (!li.hasClass("foldable")) {
         return;
     }
 
@@ -154,6 +154,8 @@ function initTree(ul) {
     });
     $(ul).find(".node").wrapInner('<span class="text"></span>');
     $(ul).find(".node").append(' <span class="zoom">⚓</span> ');
+
+    $(ul).find("li:has(ul)").addClass("foldable");
 
     $(ul).find(".text").click(function(e) {
         var li = $(this).parent().parent();
