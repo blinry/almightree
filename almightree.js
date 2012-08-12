@@ -158,8 +158,10 @@ function initTree(ul) {
 
     $(ul).find(".text").click(function(e) {
         var li = $(this).parent().parent();
-        if (li.hasClass("crumb") || li.hasClass("headline")) {
+        if (li.hasClass("crumb")) {
             zoomOn(li);
+        } else if (li.hasClass("headline")) {
+            // enjoy life
         } else {
             foldToggle(li);
         }
