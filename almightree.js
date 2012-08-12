@@ -159,11 +159,7 @@ function initTree(ul) {
     $(ul).find(".text").click(function(e) {
         var li = $(this).parent().parent();
         if (li.hasClass("crumb") || li.hasClass("headline")) {
-            if ($(li).parent().is("#almightree")) {
-                search("", true);
-            } else {
-                search(stringToSlug($(this).text()), true);
-            }
+            zoomOn(li);
         } else {
             foldToggle(li);
         }
@@ -171,15 +167,19 @@ function initTree(ul) {
 
     $(ul).find(".zoom").click(function(e) {
         var li = $(this).parent().parent();
-        if ($(li).parent().is("#almightree")) {
-            search("", true);
-        } else {
-            search(stringToSlug($(this).parent().children(".text").text()), true);
-        }
+        zoomOn(li);
     });
 
     originalTitle = document.title;
     search(getTermFromURL());
+}
+
+function zoomOn(li) {
+    if ($(li).parent().is("#almightree")) {
+        search("", true);
+    } else {
+        search(stringToSlug($(li).children(".node").children(".text").text()), true);
+    }
 }
 
 function initSearchbox(input) {
