@@ -6,7 +6,6 @@ function search(fullTerm, undoable) {
     // in case it was taken from the URL
     $("#almightree-search").val(fullTerm);
 
-
     // update URL
     if(window.location.pathname.match("index.html")) {
         newPath = "index.html#"+fullTerm;
@@ -46,8 +45,8 @@ function search(fullTerm, undoable) {
 }
 
 function filterTerm(term) {
-    var hits = $("#almightree li:visible > .node:containsCI("+term+")");
-    $("#almightree li").hide();
+    var hits = $("#almightree li li:visible > .node:containsCI("+term+")");
+    $("#almightree li li").hide();
 
     hits.parentsUntil("#almightree", "li").show();
     hits.parent().children("ul").children("li").show();
