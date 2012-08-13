@@ -156,7 +156,7 @@ function initTree(ul) {
         }
     });
     $(ul).find(".node").wrapInner('<span class="text"></span>');
-    $(ul).find(".node").append(' <span class="zoom">⚓</span> ');
+    $(ul).find(".node").prepend('<span class="zoom">⚓</span>');
 
     $(ul).find("li:has(ul)").addClass("foldable");
 
