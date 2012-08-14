@@ -1,3 +1,11 @@
+* {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
 html {
     overflow: -moz-scrollbars-vertical; 
     overflow-y: scroll;
@@ -7,6 +15,21 @@ body {
     color: #222;
     font-family: sans-serif;
     font-size: 16px;
+}
+
+#almightree-search {
+    border: 1px solid gray;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+#almightree {
+    margin-left: 40px;
+    margin-top: 20px;
+}
+
+#almightree .headline li li {
+    margin-left: 40px;
 }
 
 #almightree .headline li img {
