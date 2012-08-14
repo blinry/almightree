@@ -45,12 +45,15 @@ function search(fullTerm, undoable) {
 }
 
 function filterTerm(term) {
-    var hits = $("#almightree li li:visible > .node:containsCI("+term+")");
+    var hits = $("#almightree li li").filter(function() {
+        return $(this).css("display") != "none" && $(this).children(".node").filter(":containsCI("+term+")").size() > 0;
+    })
     $("#almightree li li").hide();
 
+    hits.show();
     hits.parentsUntil("#almightree", "li").show();
-    hits.parent().children("ul").children("li").show();
-    hits.parent().children("ul").children("li").children("ul").children("li").show();
+    hits.children("ul").children("li").show();
+    hits.children("ul").children("li").children("ul").children("li").show();
 }
 
 function recursiveFilter(term, li) {
@@ -62,7 +65,9 @@ function recursiveFilter(term, li) {
         return true;
     } else {
         var allChildrenFiltered = true;
-        li.children("ul").children("li:visible").each(function() {
+        li.children("ul").children("li").filter(function() {
+            return $(this).css("display") != "none";
+        }).each(function() {
             if (recursiveFilter(term, $(this))) {
                 allChildrenFiltered = false;
             }
@@ -82,18 +87,28 @@ function update() {
     var visibleChildren = 1;
     var containsHighlight = false;
     while(visibleChildren == 1 && !containsHighlight) {
-        visibleChildren = li.children("ul").children(":visible").size();
+        visibleChildren = li.children("ul").children().filter(function() {
+            return $(this).css("display") != "none";
+        }).size();
         if (visibleChildren == 1) {
             if (li.children(".node").find(".highlight").size() > 0) {
                 break;
             }
-            li = li.children("ul").children("li:visible");
+            li = li.children("ul").children("li").filter(function() {
+                return $(this).css("display") != "none";
+            });
         }
     }
     li.addClass("headline");
     li.parentsUntil("#almightree", "li").addClass("crumb");
 
-    $("li.foldable:has(> ul > li:hidden)").addClass("folded");   
+    $("li.foldable").each(function() {
+        if ($(this).children("ul").children("li").filter(function() {
+            return $(this).css("display") == "none";
+            }).size() > 0) {
+            $(this).addClass("folded");   
+        }
+    });
 }
 
 function getTermFromURL() {
@@ -147,33 +162,35 @@ function fold(li) {
 }
 
 function initTree(ul) {
-    // surround each li's text with a span for easier access
-    $(ul).find("li").each(function(){
+    $(ul).find("li").each(function() {
+        // give li's with children the "foldable" class
+        // surround each li's text with a span for easier access
         if ($(this).children("ul").size() > 0) {
+            $(this).addClass("foldable");
             $(this).children("ul").wrapSides();
         } else {
-            $(this).wrapInner('<span class="node"></span>');
+            $(this).html(function(index, oldhtml) {
+                return '<span class="node">'+oldhtml+'</span>';
+            });
         }
-    });
-    $(ul).find(".node").wrapInner('<span class="text"></span>');
-    $(ul).find(".node").prepend('<span class="zoom">⚓</span>');
+        // wrap the text with a "text" and prepend a "zoom"
+        var node = $(this).children(".node").wrapInner('<span class="text"></span>').prepend('<span class="zoom">⚓</span>');
 
-    $(ul).find("li:has(ul)").addClass("foldable");
+        node.children(".text").click(function(e) {
+            var li = $(this).parent().parent();
+            if (li.hasClass("crumb")) {
+                zoomOn(li);
+            } else if (li.hasClass("headline")) {
+                // enjoy life
+            } else {
+                foldToggle(li);
+            }
+        });
 
-    $(ul).find(".text").click(function(e) {
-        var li = $(this).parent().parent();
-        if (li.hasClass("crumb")) {
+        node.children(".zoom").click(function(e) {
+            var li = $(this).parent().parent();
             zoomOn(li);
-        } else if (li.hasClass("headline")) {
-            // enjoy life
-        } else {
-            foldToggle(li);
-        }
-    });
-
-    $(ul).find(".zoom").click(function(e) {
-        var li = $(this).parent().parent();
-        zoomOn(li);
+        });
     });
 
     originalTitle = document.title;
