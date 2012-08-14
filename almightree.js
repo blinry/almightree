@@ -195,6 +195,9 @@ function initTree(ul) {
 
     originalTitle = document.title;
     search(getTermFromURL());
+    $(window).bind("hashchange", function() {
+        search(getTermFromURL());
+    });
 }
 
 function zoomOn(li) {
