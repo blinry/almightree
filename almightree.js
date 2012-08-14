@@ -93,7 +93,7 @@ function update() {
     li.addClass("headline");
     li.parentsUntil("#almightree", "li").addClass("crumb");
 
-    li.find("li.foldable:has(> ul > li:hidden)").addClass("folded");   
+    $("li.foldable:has(> ul > li:hidden)").addClass("folded");   
 }
 
 function getTermFromURL() {
