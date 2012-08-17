@@ -201,6 +201,7 @@ function initTree(ul) {
 }
 
 function zoomOn(li) {
+    window.scrollTo(0,0);
     if ($(li).parent().is("#almightree")) {
         search("", true);
     } else {
