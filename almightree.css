@@ -35,7 +35,11 @@ body {
     height: 1em;
 }
 
-#almightree .highlight {
+#almightree .headline > .node .highlight {
+    background-color: #ffb;
+}
+
+#almightree .headline li .highlight {
     background-color: #ff8;
 }
 
@@ -90,7 +94,7 @@ body {
 }
 
 #almightree li.headline > .node {
-    font-size: 50px;
+    font-size: 30px;
 }
 
 #almightree li.headline > ul {

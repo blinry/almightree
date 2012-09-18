@@ -174,7 +174,7 @@ function initTree(ul) {
             });
         }
         // wrap the text with a "text" and prepend a "zoom"
-        var node = $(this).children(".node").wrapInner('<span class="text"></span>').prepend('<span class="zoom">⚓</span>');
+        var node = $(this).children(".node").wrapInner('<span class="text"></span>').prepend('<span class="zoom" title="Search for this node">⚓</span>');
 
         node.children(".text").click(function(e) {
             var li = $(this).parent().parent();
