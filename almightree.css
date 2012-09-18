@@ -17,12 +17,6 @@ body {
     font-size: 16px;
 }
 
-#almightree-search {
-    border: 1px solid gray;
-    padding: 3px;
-    border-radius: 5px;
-}
-
 #almightree {
     margin-left: 40px;
     margin-top: 20px;
@@ -39,11 +33,6 @@ body {
 
 #almightree .crumb > .node img, #almightree .headline > .node img {
     height: 1em;
-}
-
-#almightree-search {
-    margin-left: 40px;
-    margin-top: 20px;
 }
 
 #almightree .highlight {
