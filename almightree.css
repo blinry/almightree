@@ -21,12 +21,6 @@ body {
     font-size: 16px;
 }
 
-#almightree-search {
-    border: 1px solid gray;
-    padding: 3px;
-    border-radius: 5px;
-}
-
 #almightree {
     margin-left: 40px;
     margin-top: 20px;
@@ -34,7 +28,7 @@ body {
 }
 
 #almightree .headline li li {
-    margin-left: 40px;
+    /*margin-left: 40px;*/
 }
 
 #almightree .headline li img {
@@ -45,12 +39,11 @@ body {
     height: 1em;
 }
 
-#almightree-search {
-    margin-left: 40px;
-    margin-top: 20px;
+#almightree .headline > .node .highlight {
+    background-color: #ffb;
 }
 
-#almightree .highlight {
+#almightree .headline li .highlight {
     background-color: #ff8;
 }
 
@@ -68,6 +61,14 @@ body {
 
 #almightree .headline li .node:hover .zoom {
     visibility: visible;
+}
+
+#almightree li {
+    margin-left: 40px;
+}
+
+#almightree li.crumb, #almightree li.headline, #almightree > ul > li {
+    margin-left: 0;
 }
 
 #almightree li {
@@ -105,7 +106,7 @@ body {
 }
 
 #almightree li.headline > .node {
-    font-size: 50px;
+    font-size: 30px;
 }
 
 #almightree li.headline > ul {
