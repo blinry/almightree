@@ -24,7 +24,7 @@ body {
 }
 
 #almightree .headline li li {
-    margin-left: 40px;
+    /*margin-left: 40px;*/
 }
 
 #almightree .headline li img {
@@ -57,6 +57,14 @@ body {
 
 #almightree .headline li .node:hover .zoom {
     visibility: visible;
+}
+
+#almightree li {
+    margin-left: 40px;
+}
+
+#almightree li.crumb, #almightree li.headline, #almightree > ul > li {
+    margin-left: 0;
 }
 
 #almightree li {
