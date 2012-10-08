@@ -1,5 +1,5 @@
 #almightree {
-    margin-left: 40px;
+    margin-left: 50px;
     margin-top: 20px;
     margin-bottom: 200px;
 }
@@ -40,7 +40,11 @@
     visibility: visible;
 }
 
-#almightree li {
+#almightree .headline > ul > li {
+    margin-left: -10px;
+}
+
+#almightree .headline li li {
     margin-left: 40px;
 }
 
