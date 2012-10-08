@@ -112,7 +112,7 @@ function update() {
     li.addClass("headline");
     li.parentsUntil("#almightree", "li").addClass("crumb");
 
-    $("li.foldable").each(function() {
+    li.find("li.foldable").each(function() {
         if ($(this).children("ul").children("li").filter(function() {
             return $(this).css("display") == "none";
             }).size() > 0) {
@@ -223,7 +223,7 @@ function initSearchbox(input) {
     var timer;
     $(input).keyup(function(e) {
         clearTimeout(timer);
-        timer = setTimeout(function(){search($(input).val())}, 0);
+        timer = setTimeout(function(){search($(input).val())}, 120);
     });
 }
 
