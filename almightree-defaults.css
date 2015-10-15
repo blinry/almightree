@@ -1,0 +1,84 @@
+/* highlight search results below yellow */
+#almightree .headline > .node .highlight {
+    background-color: #ffb;
+}
+
+/* ... and search results in the headline light yellow */
+#almightree .headline li .highlight {
+    background-color: #ff8;
+}
+
+/* hide the zoom icons by default */
+#almightree .zoom {
+    display: none;
+}
+
+/* ... but display them for all nodes below the headline */
+/* also, move it to a nice position */
+#almightree .headline li .zoom {
+    display: inline;
+    cursor: pointer;
+    margin-left: -2em;
+    margin-right: 0.2em;
+    vertical-align: top;
+}
+
+/* display the text as a block */
+#almightree .text {
+    display: inline-block;
+}
+
+/* prevent gaps in the crumb line, in front of the headline and the first-level items */
+#almightree li.crumb, #almightree .headline {
+    margin-left: 0;
+}
+
+/* li's have no list-style */
+#almightree li {
+    list-style: none;
+}
+
+/* nice crumb coloring */
+#almightree li.crumb > .node {
+    color: #888;
+}
+#almightree li.crumb > .node .text:hover {
+    color: #333;
+}
+
+/* hand cursor on crumb hover */
+#almightree li.crumb > .node .text:hover {
+    cursor: pointer;
+}
+
+/* highlight folded nodes, and foldable nodes on hover */
+#almightree .headline li.folded > .node .text {
+    background: #ccc;
+}
+#almightree .headline li.foldable > .node .text:hover {
+    background: #eee;
+    cursor: pointer;
+}
+#almightree .headline li.folded > .node .text:hover {
+    background: #aaa;
+}
+
+/* display crumb nodes inline */
+#almightree li.crumb {
+    display: inline !important;
+}
+#almightree li.crumb > ul {
+    display: inline;
+}
+
+/* seperate crumb nodes nicely */
+#almightree li.crumb > .node:after {
+    content: " › ";
+}
+
+/* Make headline text larger and add a bottom margin */
+#almightree li.headline > .node {
+    display: block;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}

@@ -9,31 +9,6 @@ jQuery.extend (
     })
 );
 
-// <li>...<ul>...</ul></li> to <li><span class="node">...</span><ul>...</ul>...</li>
-$.fn.wrapSides = function () {
-    return this.each( function (index, el) {
-       var $parent = $(el).parent(),
-           contents = $.makeArray($parent.contents()),
-           before, after, i, matched, build = $();
-
-        for (i = 0; i < contents.length; i++) {
-            if( contents[i] === el) {
-                before = contents.slice(0, i);
-                after = contents.slice( Math.min(contents.length - 1, i + 1), contents.length);
-                matched = contents.slice(i,i + 1);
-                break;   
-            }
-        };
-
-        if (before && before.length) {
-            build = build.add($("<span class=\"node\">").append(before));
-        }
-
-        build = build.add(matched);
-        $parent.html( build );
-    }); 
-};
-
 function search(fullTerm, undoable) {
     // by default, the search action is not undoable
     undoable = typeof undoable !== 'undefined' ? undoable : false;
@@ -42,10 +17,10 @@ function search(fullTerm, undoable) {
     $("#almightree-search").val(fullTerm);
 
     // update URL
-    if(window.location.pathname.match("index.html")) {
+    /*if(window.location.pathname.match("index.html")) {
         newPath = "index.html#"+fullTerm;
     } else {
-        newPath = "/"+fullTerm;
+        newPath = originalURL+"/"+fullTerm;
     }
     if (undoable) {
         window.history.pushState("", "", newPath);
@@ -53,7 +28,7 @@ function search(fullTerm, undoable) {
         window.history.replaceState("", "", newPath);
     }
     // ... and title
-    document.title = originalTitle+" - "+fullTerm;
+    document.title = originalTitle+" - "+fullTerm;*/
 
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
 
@@ -172,18 +147,25 @@ function fold(li) {
 }
 
 function initTree(ul) {
+    console.log("test2");
     $(ul).find("li").each(function() {
+
+        // convert <li>a<ul>b</ul></li> to
+        // <li>
+        //     <span class="node">
+        //         <span class="zoom"><i class="icon-search">s</i></span>
+        //         <span class="text">a</span>
+        //     </span>
+        //     <ul>b</ul>
+        // </li>
+        $(this.firstChild).wrap('<span class="node"><span class="text"></span></span>').wrap('');
+        $(this).children(".node").prepend('<span class="zoom">⚫</span>');
+
         // give li's with children the "foldable" class
-        // surround each li's text with a span for easier access
         if ($(this).children("ul").size() > 0) {
             $(this).addClass("foldable");
-            //$(this).children("ul").wrapSides();
-        } else {
-            /*$(this).html(function(index, oldhtml) {
-                return '<span class="node">'+oldhtml+'</span>';
-            });*/
         }
-        //var node = $(this).children(".node").wrapInner('<span class="text"></span>').prepend('<span class="zoom" title="Search for this node">⚓</span>');
+
         var node = $(this).children(".node");
 
         node.children(".text").click(function(e) {
@@ -204,7 +186,9 @@ function initTree(ul) {
     });
 
     originalTitle = document.title;
-    search(getTermFromURL());
+    originalURL = window.location.pathname;
+    //search(getTermFromURL());
+    search("");
     $(window).bind("hashchange", function() {
         search(getTermFromURL());
     });
@@ -235,7 +219,7 @@ function initClear(a) {
 }
 
 $(function(){
-    initTree("#almightree");
-    initSearchbox("#almightree-search");
-    initClear("#almightree-clear");
+    //initTree("#almightree");
+    //initSearchbox("#almightree-search");
+    //initClear("#almightree-clear");
 });
