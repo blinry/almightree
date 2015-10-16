@@ -17,18 +17,20 @@ function search(fullTerm, undoable) {
     $("#almightree-search").val(fullTerm);
 
     // update URL
-    /*if(window.location.pathname.match("index.html")) {
-        newPath = "index.html#"+fullTerm;
+    if (fullTerm == "") {
+        newPath = originalURL;
     } else {
-        newPath = originalURL+"/"+fullTerm;
+        newPath = originalURL+"#"+fullTerm;
     }
+
     if (undoable) {
         window.history.pushState("", "", newPath);
     } else {
         window.history.replaceState("", "", newPath);
     }
+
     // ... and title
-    document.title = originalTitle+" - "+fullTerm;*/
+    document.title = originalTitle+" - "+fullTerm;
 
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
 
@@ -97,11 +99,7 @@ function update() {
 }
 
 function getTermFromURL() {
-    if(window.location.pathname.match("index.html")) {
-        term = window.location.hash.substr(1);
-    } else {
-        term = window.location.pathname.substr(1);
-    }
+    term = window.location.hash.substr(1);
     return decodeURIComponent(term);
 }
 
@@ -187,8 +185,7 @@ function initTree(ul) {
 
     originalTitle = document.title;
     originalURL = window.location.pathname;
-    //search(getTermFromURL());
-    search("");
+    search(getTermFromURL());
     $(window).bind("hashchange", function() {
         search(getTermFromURL());
     });
