@@ -22,6 +22,9 @@
     margin-right: 0.2em;
     vertical-align: top;
 }
+#almightree .zoom:hover {
+    opacity: 0.8;
+}
 
 /* display the text as a block */
 #almightree .text {

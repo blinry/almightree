@@ -37,12 +37,12 @@ function search(fullTerm, undoable) {
     $("#almightree").highlightRegex();
     if(fullTerm.length < 1){
         document.title = originalTitle;
-        $("#almightree li").show();
-        $("#almightree li li li li").hide();
+        $("#almightree li").css("display", "list-item");
+        $("#almightree li li li li").css("display", "none");
     } else {
         var terms = fullTerm.split("/");
         var lastValidTerm;
-        $("#almightree li").show();
+        $("#almightree li").css("display", "list-item");
         for (var i=0; i<terms.length; i++) {
             var term = terms[i];
             if (term == "") {
@@ -60,12 +60,12 @@ function filterTerm(term) {
     var hits = $("#almightree li li").filter(function() {
         return $(this).css("display") != "none" && $(this).children(".node").filter(":containsCI("+term+")").size() > 0;
     })
-    $("#almightree li li").hide();
+    $("#almightree li li").css("display", "none");
 
-    hits.show();
-    hits.parentsUntil("#almightree", "li").show();
-    hits.children("ul").children("li").show();
-    hits.children("ul").children("li").children("ul").children("li").show();
+    hits.css("display", "list-item");
+    hits.parentsUntil("#almightree", "li").css("display", "list-item");
+    hits.children("ul").children("li").css("display", "list-item");
+    hits.children("ul").children("li").children("ul").children("li").css("display", "list-item");
 }
 
 function update() {
@@ -93,7 +93,7 @@ function update() {
         if ($(this).children("ul").children("li").filter(function() {
             return $(this).css("display") == "none";
             }).size() > 0) {
-            $(this).addClass("folded");   
+            $(this).addClass("folded");
         }
     });
 }
@@ -132,7 +132,7 @@ function unfold(li) {
     }
 
     li.removeClass("folded");
-    li.children().children("li").show();
+    li.children().children("li").css("display", "list-item");
 }
 
 function fold(li) {
@@ -141,14 +141,13 @@ function fold(li) {
     }
 
     li.addClass("folded");
-    li.children().children("li").hide();
+    li.children().children("li").css("display", "none");
 }
 
 function initTree(ul) {
-    console.log("test2");
     $(ul).find("li").each(function() {
 
-        // convert <li>a<ul>b</ul></li> to
+        // in the following, we convert <li>a<ul>b</ul></li> to
         // <li>
         //     <span class="node">
         //         <span class="zoom"><i class="icon-search">s</i></span>
@@ -156,7 +155,11 @@ function initTree(ul) {
         //     </span>
         //     <ul>b</ul>
         // </li>
-        $(this.firstChild).wrap('<span class="node"><span class="text"></span></span>').wrap('');
+        contents = $(this).contents();
+        if (contents.slice(-2,-1).is("ul")) {
+            contents = contents.slice(0,-2);
+        }
+        contents.wrapAll('<span class="node"><span class="text"></span></span>').wrap('');
         $(this).children(".node").prepend('<span class="zoom">⚫</span>');
 
         // give li's with children the "foldable" class
