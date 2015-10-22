@@ -9,7 +9,7 @@ jQuery.extend (
     })
 );
 
-function search(fullTerm, undoable) {
+function search(ul, fullTerm, undoable) {
     // by default, the search action is not undoable
     undoable = typeof undoable !== 'undefined' ? undoable : false;
 
@@ -34,43 +34,43 @@ function search(fullTerm, undoable) {
 
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
 
-    $("#almightree").highlightRegex();
+    $(ul).highlightRegex();
     if(fullTerm.length < 1){
         document.title = originalTitle;
-        $("#almightree li").css("display", "list-item");
-        $("#almightree li li li li").css("display", "none");
+        $(ul).children("li").css("display", "list-item");
+        $(ul).children("li li li li").css("display", "none");
     } else {
         var terms = fullTerm.split("/");
         var lastValidTerm;
-        $("#almightree li").css("display", "list-item");
+        $(ul).children("li").css("display", "list-item");
         for (var i=0; i<terms.length; i++) {
             var term = terms[i];
             if (term == "") {
                 continue;
             }
             lastValidTerm = term;
-            filterTerm(term);
+            filterTerm(ul, term);
         }
-        $("#almightree").highlightRegex(new RegExp(lastValidTerm, "i"));
+        $(ul).highlightRegex(new RegExp(lastValidTerm, "i"));
     }
-    update();
+    update(ul);
 }
 
-function filterTerm(term) {
-    var hits = $("#almightree li li").filter(function() {
+function filterTerm(ul, term) {
+    var hits = $(ul).children("li li").filter(function() {
         return $(this).css("display") != "none" && $(this).children(".node").filter(":containsCI("+term+")").size() > 0;
     })
-    $("#almightree li li").css("display", "none");
+    $(ul).children("li li").css("display", "none");
 
     hits.css("display", "list-item");
-    hits.parentsUntil("#almightree", "li").css("display", "list-item");
+    hits.parentsUntil(ul, "li").css("display", "list-item");
     hits.children("ul").children("li").css("display", "list-item");
     hits.children("ul").children("li").children("ul").children("li").css("display", "list-item");
 }
 
-function update() {
-    $("#almightree li").removeClass("headline crumb folded");
-    li = $("#almightree li").first();
+function update(ul) {
+    $(ul).children("li").removeClass("headline crumb folded");
+    li = $(ul).children("li").first();
     var visibleChildren = 1;
     var containsHighlight = false;
     while(visibleChildren == 1 && !containsHighlight) {
@@ -87,7 +87,7 @@ function update() {
         }
     }
     li.addClass("headline");
-    li.parentsUntil("#almightree", "li").addClass("crumb");
+    li.parentsUntil(ul, "li").addClass("crumb");
 
     li.find("li.foldable").each(function() {
         if ($(this).children("ul").children("li").filter(function() {
@@ -145,7 +145,7 @@ function fold(li) {
 }
 
 function initTree(ul) {
-    $(ul).find("li").each(function() {
+    $(ul).addClass("almightree").find("li").each(function() {
 
         // in the following, we convert <li>a<ul>b</ul></li> to
         // <li>
@@ -172,7 +172,7 @@ function initTree(ul) {
         node.children(".text").click(function(e) {
             var li = $(this).parent().parent();
             if (li.hasClass("crumb")) {
-                zoomOn(li);
+                zoomOn(ul, li);
             } else if (li.hasClass("headline")) {
                 // enjoy life
             } else {
@@ -182,38 +182,38 @@ function initTree(ul) {
 
         node.children(".zoom").click(function(e) {
             var li = $(this).parent().parent();
-            zoomOn(li);
+            zoomOn(ul, li);
         });
     });
 
     originalTitle = document.title;
     originalURL = window.location.pathname;
-    search(getTermFromURL());
+    search(ul, getTermFromURL());
     $(window).bind("hashchange", function() {
-        search(getTermFromURL());
+        search(ul, getTermFromURL());
     });
 }
 
-function zoomOn(li) {
+function zoomOn(ul, li) {
     window.scrollTo(0,0);
-    if ($(li).parent().is("#almightree")) {
-        search("", true);
+    if ($(li).parent().is(ul)) {
+        search(ul, "", true);
     } else {
-        search(stringToSlug($(li).children(".node").children(".text").text()), true);
+        search(ul, stringToSlug($(li).children(".node").children(".text").text()), true);
     }
 }
 
-function initSearchbox(input) {
+function initSearchbox(ul, input) {
     var timer;
     $(input).keyup(function(e) {
         clearTimeout(timer);
-        timer = setTimeout(function(){search($(input).val())}, 120);
+        timer = setTimeout(function(){search(ul, $(input).val())}, 120);
     });
 }
 
-function initClear(a) {
+function initClear(ul, a) {
     $(a).click(function(e) {
-        search("", true);
+        search(ul, "", true);
         e.preventDefault();
     });
 }
@@ -225,7 +225,7 @@ function initClear(a) {
 
         initTree(this);
         if (settings["search"]) {
-            initSearchbox(settings["search"]);
+            initSearchbox(this, settings["search"]);
         }
 
         return this;

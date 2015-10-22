@@ -1,95 +1,95 @@
 /* highlight search results below yellow */
-#almightree .headline > .node .highlight {
+.almightree .headline > .node .highlight {
     background-color: #ffb;
 }
 
 /* ... and search results in the headline light yellow */
-#almightree .headline li .highlight {
+.almightree .headline li .highlight {
     background-color: #ff8;
 }
 
 /* hide the zoom icons by default */
-#almightree .zoom {
+.almightree .zoom {
     display: none;
 }
 
 /* ... but display them for all nodes below the headline */
 /* also, move it to a nice position */
-#almightree .headline li .zoom {
+.almightree .headline li .zoom {
     display: inline;
     cursor: pointer;
     margin-left: -2em;
     margin-right: 0.2em;
     vertical-align: top;
 }
-#almightree .zoom:hover {
+.almightree .zoom:hover {
     opacity: 0.8;
 }
 
 /* display the text as a block */
-#almightree .text {
+.almightree .text {
     display: inline-block;
 }
 
 /* prevent gaps in the crumb line, in front of the headline and the first-level items */
-#almightree li.crumb, #almightree li.crumb > ul, #almightree .headline {
+.almightree li.crumb, .almightree li.crumb > ul, .almightree .headline {
     margin-left: 0;
 }
-#almightree li.crumb > ul {
+.almightree li.crumb > ul {
     padding-left: 0;
 }
 
 /* li's have no list-style */
-#almightree li {
+.almightree li {
     list-style: none;
 }
 
 /* nice crumb coloring */
-#almightree li.crumb > .node {
+.almightree li.crumb > .node {
     color: #888;
 }
-#almightree li.crumb > .node .text:hover {
+.almightree li.crumb > .node .text:hover {
     color: #333;
 }
 
 /* hand cursor on crumb hover */
-#almightree li.crumb > .node .text:hover {
+.almightree li.crumb > .node .text:hover {
     cursor: pointer;
 }
 
 /* display node text in a rounded box */
-#almightree .headline li .node .text {
+.almightree .headline li .node .text {
     border-radius: 7px;
     padding: 3px;
 }
 
 /* highlight folded nodes, and foldable nodes on hover */
-#almightree .headline li.folded > .node .text {
+.almightree .headline li.folded > .node .text {
     background: #ccc;
 }
-#almightree .headline li.foldable > .node .text:hover {
+.almightree .headline li.foldable > .node .text:hover {
     background: #eee;
     cursor: pointer;
 }
-#almightree .headline li.folded > .node .text:hover {
+.almightree .headline li.folded > .node .text:hover {
     background: #aaa;
 }
 
 /* display crumb nodes inline */
-#almightree li.crumb {
+.almightree li.crumb {
     display: inline !important;
 }
-#almightree li.crumb > ul {
+.almightree li.crumb > ul {
     display: inline;
 }
 
 /* seperate crumb nodes nicely */
-#almightree li.crumb > .node:after {
+.almightree li.crumb > .node:after {
     content: " › ";
 }
 
 /* Make headline text larger and add a bottom margin */
-#almightree li.headline > .node {
+.almightree li.headline > .node {
     display: block;
     font-size: 1.5em;
     margin-bottom: 0.5em;
