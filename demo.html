@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>almightree demo</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="jquery.almightree.js"></script>
+        <script>
+            $(function(){
+                $("#almightree").almightree({search: "#almightree-search"});
+            });
+        </script>
+        <link rel="stylesheet" href="almightree.css">
+    </head>
+    <body>
+        <input id="almightree-search">
+        <ul id="almightree">
+            <li>Headline
+                <ul>
+                    <li>A
+                        <ul>
+                            <li>1
+                            </li>
+                            <li>2
+                            </li>
+                            <li>more content here
+                                <ul>
+                                    <li>100
+                                    </li>
+                                    <li>200
+                                    </li>
+                                    <li>300
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>B
+                        <ul>
+                            <li>alpha
+                            </li>
+                            <li>beta
+                            </li>
+                            <li>gamma
+                            </li>
+                        </ul>
+                    </li>
+                    <li>C
+                        <ul>
+                            <li>ichi
+                            </li>
+                            <li>ni
+                            </li>
+                            <li>san
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </body>
+</html>

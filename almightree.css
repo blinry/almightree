@@ -32,8 +32,11 @@
 }
 
 /* prevent gaps in the crumb line, in front of the headline and the first-level items */
-#almightree li.crumb, #almightree .headline {
+#almightree li.crumb, #almightree li.crumb > ul, #almightree .headline {
     margin-left: 0;
+}
+#almightree li.crumb > ul {
+    padding-left: 0;
 }
 
 /* li's have no list-style */
@@ -52,6 +55,12 @@
 /* hand cursor on crumb hover */
 #almightree li.crumb > .node .text:hover {
     cursor: pointer;
+}
+
+/* display node text in a rounded box */
+#almightree .headline li .node .text {
+    border-radius: 7px;
+    padding: 3px;
 }
 
 /* highlight folded nodes, and foldable nodes on hover */
