@@ -218,6 +218,20 @@ function initClear(a) {
     });
 }
 
+(function ($) {
+    $.fn.almightree = function(options) {
+        var settings = $.extend({
+        }, options);
+
+        initTree(this);
+        if (settings["search"]) {
+            initSearchbox(settings["search"]);
+        }
+
+        return this;
+    };
+}(jQuery));
+
 /*
  * jQuery Highlight Regex Plugin v0.1.2
  *
