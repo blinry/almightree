@@ -33,7 +33,7 @@
 
 /* prevent gaps in the crumb line, in front of the headline and the first-level items */
 .almightree li.crumb, .almightree li.crumb > ul, .almightree .headline {
-    margin-left: 0;
+    margin-left: 0 !important;
 }
 .almightree li.crumb > ul {
     padding-left: 0;
@@ -41,7 +41,7 @@
 
 /* li's have no list-style */
 .almightree li {
-    list-style: none;
+    list-style: none !important;
 }
 
 /* nice crumb coloring */

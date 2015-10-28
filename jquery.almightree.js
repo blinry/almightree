@@ -2,19 +2,26 @@
 jQuery.extend (
     jQuery.expr[':'].containsCI = jQuery.expr.createPseudo(function(arg) {
         return function(elem) {
-            var sText   = (elem.textContent || elem.innerText || "");     
+            var sText   = (elem.textContent || elem.innerText || "");
             var zRegExp = new RegExp (arg, 'i');
             return zRegExp.test(sText);
         }
     })
 );
 
-function search(ul, fullTerm, undoable) {
+function Almightree(tree, searchbox) {
+    this.tree = tree;
+    this.searchbox = searchbox;
+}
+
+Almightree.prototype.search = function(fullTerm, undoable) {
     // by default, the search action is not undoable
     undoable = typeof undoable !== 'undefined' ? undoable : false;
 
     // in case it was taken from the URL, update the search box
-    $("#almightree-search").val(fullTerm);
+    if (this.searchbox != undefined) {
+        this.searchbox.val(fullTerm);
+    }
 
     // update URL
     if (fullTerm == "") {
@@ -34,43 +41,42 @@ function search(ul, fullTerm, undoable) {
 
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
 
-    $(ul).highlightRegex();
+    this.tree.highlightRegex();
     if(fullTerm.length < 1){
         document.title = originalTitle;
-        $(ul).children("li").css("display", "list-item");
-        $(ul).children("li li li li").css("display", "none");
+        this.tree.find("li").css("display", "list-item");
+        this.tree.find("li li li li").css("display", "none");
     } else {
         var terms = fullTerm.split("/");
         var lastValidTerm;
-        $(ul).children("li").css("display", "list-item");
+        this.tree.find("li").css("display", "list-item");
         for (var i=0; i<terms.length; i++) {
             var term = terms[i];
             if (term == "") {
                 continue;
             }
             lastValidTerm = term;
-            filterTerm(ul, term);
+            this.filterTerm(term);
         }
-        $(ul).highlightRegex(new RegExp(lastValidTerm, "i"));
+        this.tree.highlightRegex(new RegExp(lastValidTerm, "i"));
     }
-    update(ul);
-}
+    this.update();
+};
 
-function filterTerm(ul, term) {
-    var hits = $(ul).children("li li").filter(function() {
+Almightree.prototype.filterTerm = function(term) {
+    var hits = this.tree.find("li li").filter(function() {
         return $(this).css("display") != "none" && $(this).children(".node").filter(":containsCI("+term+")").size() > 0;
     })
-    $(ul).children("li li").css("display", "none");
+    this.tree.find("li li").css("display", "none");
 
     hits.css("display", "list-item");
-    hits.parentsUntil(ul, "li").css("display", "list-item");
-    hits.children("ul").children("li").css("display", "list-item");
-    hits.children("ul").children("li").children("ul").children("li").css("display", "list-item");
-}
+    hits.parentsUntil(this.tree, "li").css("display", "list-item");
+    hits.children("ul li ul").find("li").css("display", "list-item");
+};
 
-function update(ul) {
-    $(ul).children("li").removeClass("headline crumb folded");
-    li = $(ul).children("li").first();
+Almightree.prototype.update = function() {
+    this.tree.find("li").removeClass("headline crumb folded");
+    li = this.tree.children("li").first();
     var visibleChildren = 1;
     var containsHighlight = false;
     while(visibleChildren == 1 && !containsHighlight) {
@@ -87,7 +93,7 @@ function update(ul) {
         }
     }
     li.addClass("headline");
-    li.parentsUntil(ul, "li").addClass("crumb");
+    li.parentsUntil(this.tree, "li").addClass("crumb");
 
     li.find("li.foldable").each(function() {
         if ($(this).children("ul").children("li").filter(function() {
@@ -96,7 +102,7 @@ function update(ul) {
             $(this).addClass("folded");
         }
     });
-}
+};
 
 function getTermFromURL() {
     term = window.location.hash.substr(1);
@@ -144,8 +150,9 @@ function fold(li) {
     li.children().children("li").css("display", "none");
 }
 
-function initTree(ul) {
-    $(ul).addClass("almightree").find("li").each(function() {
+Almightree.prototype.initTree = function() {
+    that = this;
+    this.tree.addClass("almightree").find("li").each(function() {
 
         // in the following, we convert <li>a<ul>b</ul></li> to
         // <li>
@@ -172,7 +179,7 @@ function initTree(ul) {
         node.children(".text").click(function(e) {
             var li = $(this).parent().parent();
             if (li.hasClass("crumb")) {
-                zoomOn(ul, li);
+                that.zoomOn(li);
             } else if (li.hasClass("headline")) {
                 // enjoy life
             } else {
@@ -182,51 +189,46 @@ function initTree(ul) {
 
         node.children(".zoom").click(function(e) {
             var li = $(this).parent().parent();
-            zoomOn(ul, li);
+            that.zoomOn(li);
         });
     });
 
     originalTitle = document.title;
     originalURL = window.location.pathname;
-    search(ul, getTermFromURL());
+    this.search(getTermFromURL());
     $(window).bind("hashchange", function() {
-        search(ul, getTermFromURL());
+        that.search(getTermFromURL());
     });
-}
+};
 
-function zoomOn(ul, li) {
+Almightree.prototype.zoomOn = function(li) {
     window.scrollTo(0,0);
-    if ($(li).parent().is(ul)) {
-        search(ul, "", true);
+    if ($(li).parent().is(this.tree)) {
+        this.search("", true);
     } else {
-        search(ul, stringToSlug($(li).children(".node").children(".text").text()), true);
+        this.search(stringToSlug($(li).children(".node").children(".text").text()), true);
     }
-}
+};
 
-function initSearchbox(ul, input) {
-    var timer;
-    $(input).keyup(function(e) {
-        clearTimeout(timer);
-        timer = setTimeout(function(){search(ul, $(input).val())}, 120);
-    });
-}
-
-function initClear(ul, a) {
-    $(a).click(function(e) {
-        search(ul, "", true);
-        e.preventDefault();
-    });
-}
+Almightree.prototype.initSearchbox = function() {
+    if (this.searchbox != undefined) {
+        var timer;
+        that = this;
+        this.searchbox.keyup(function(e) {
+            clearTimeout(timer);
+            timer = setTimeout(function(){that.search(that.searchbox.val())}, 120);
+        });
+    }
+};
 
 (function ($) {
     $.fn.almightree = function(options) {
         var settings = $.extend({
         }, options);
 
-        initTree(this);
-        if (settings["search"]) {
-            initSearchbox(this, settings["search"]);
-        }
+        almightree = new Almightree($(this), $(settings["search"]));
+        almightree.initTree();
+        almightree.initSearchbox();
 
         return this;
     };
