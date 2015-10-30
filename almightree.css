@@ -61,6 +61,7 @@
 .almightree .headline li .node .text {
     border-radius: 7px;
     padding: 3px;
+    margin: 3px;
 }
 
 /* highlight folded nodes, and foldable nodes on hover */
