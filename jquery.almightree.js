@@ -36,9 +36,6 @@ Almightree.prototype.search = function(fullTerm, undoable) {
         window.history.replaceState("", "", newPath);
     }
 
-    // ... and title
-    document.title = originalTitle+" - "+fullTerm;
-
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
 
     this.tree.highlightRegex();
@@ -61,6 +58,14 @@ Almightree.prototype.search = function(fullTerm, undoable) {
         this.tree.highlightRegex(new RegExp(lastValidTerm, "i"));
     }
     this.update();
+
+    // Update title
+    if(fullTerm.length < 1){
+        document.title = originalTitle;
+    } else {
+        var headline = this.tree.find(".headline > .node > .text").text();
+        document.title = originalTitle+" - "+headline;
+    }
 };
 
 Almightree.prototype.filterTerm = function(term) {
