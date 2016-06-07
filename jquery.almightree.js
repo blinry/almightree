@@ -42,7 +42,8 @@ Almightree.prototype.search = function(fullTerm, undoable) {
 
     this.tree.highlightRegex();
     if(fullTerm.length < 1){
-        document.title = originalTitle;
+        if(this.trackHash)
+            document.title = originalTitle;
         this.tree.find("li").css("display", "list-item");
         this.tree.find("li li li li").css("display", "none");
     } else {
@@ -62,11 +63,13 @@ Almightree.prototype.search = function(fullTerm, undoable) {
     this.update();
 
     // Update title
-    if(fullTerm.length < 1){
-        document.title = originalTitle;
-    } else {
-        var headline = this.tree.find(".headline > .node > .text").text();
-        document.title = originalTitle+" - "+headline;
+    if(this.trackHash) {
+        if(fullTerm.length < 1){
+            document.title = originalTitle;
+        } else {
+            var headline = this.tree.find(".headline > .node > .text").text();
+            document.title = originalTitle+" - "+headline;
+        }
     }
 };
 
