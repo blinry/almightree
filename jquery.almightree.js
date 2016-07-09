@@ -9,38 +9,41 @@ jQuery.extend (
     })
 );
 
-function Almightree(tree, searchbox) {
+function Almightree(tree, searchbox, trackHash) {
     this.tree = tree;
     this.searchbox = searchbox;
+    this.trackHash = trackHash;
 }
 
 Almightree.prototype.search = function(fullTerm, undoable) {
     // by default, the search action is not undoable
     undoable = typeof undoable !== 'undefined' ? undoable : false;
-
     // in case it was taken from the URL, update the search box
     if (this.searchbox != undefined) {
         this.searchbox.val(fullTerm);
     }
 
     // update URL
-    if (fullTerm == "") {
-        newPath = originalURL;
-    } else {
-        newPath = originalURL+"#"+fullTerm;
-    }
+    if (this.trackHash) {
+        if (fullTerm == "") {
+            newPath = originalURL;
+        } else {
+            newPath = originalURL+"#"+fullTerm;
+        }
 
-    if (undoable) {
-        window.history.pushState("", "", newPath);
-    } else {
-        window.history.replaceState("", "", newPath);
+        if (undoable) {
+            window.history.pushState("", "", newPath);
+        } else {
+            window.history.replaceState("", "", newPath);
+        }
     }
 
     fullTerm = fullTerm.replace(/-/g, "[^a-z0-9üöäßÜÖÄẞ]*");
 
     this.tree.highlightRegex();
     if(fullTerm.length < 1){
-        document.title = originalTitle;
+        if(this.trackHash)
+            document.title = originalTitle;
         this.tree.find("li").css("display", "list-item");
         this.tree.find("li li li li").css("display", "none");
     } else {
@@ -60,11 +63,13 @@ Almightree.prototype.search = function(fullTerm, undoable) {
     this.update();
 
     // Update title
-    if(fullTerm.length < 1){
-        document.title = originalTitle;
-    } else {
-        var headline = this.tree.find(".headline > .node > .text").text();
-        document.title = originalTitle+" - "+headline;
+    if(this.trackHash) {
+        if(fullTerm.length < 1){
+            document.title = originalTitle;
+        } else {
+            var headline = this.tree.find(".headline > .node > .text").text();
+            document.title = originalTitle+" - "+headline;
+        }
     }
 };
 
@@ -200,10 +205,14 @@ Almightree.prototype.initTree = function() {
 
     originalTitle = document.title;
     originalURL = window.location.pathname;
-    this.search(getTermFromURL());
-    $(window).bind("hashchange", function() {
-        that.search(getTermFromURL());
-    });
+    if (this.trackHash) {
+        this.search(getTermFromURL());
+        $(window).bind("hashchange", function() {
+            that.search(getTermFromURL());
+        });
+    } else {
+        this.update();
+    }
 };
 
 Almightree.prototype.zoomOn = function(li) {
@@ -229,9 +238,10 @@ Almightree.prototype.initSearchbox = function() {
 (function ($) {
     $.fn.almightree = function(options) {
         var settings = $.extend({
+            trackHash: true
         }, options);
 
-        almightree = new Almightree($(this), $(settings["search"]));
+        almightree = new Almightree($(this), $(settings["search"]), settings["trackHash"]);
         almightree.initTree();
         almightree.initSearchbox();
 
